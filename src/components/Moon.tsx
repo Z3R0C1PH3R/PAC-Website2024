@@ -72,7 +72,7 @@ function Moon() {
   });
 
   return (
-    <mesh ref={moonRef} position={[-2.5, 0, -1]} castShadow receiveShadow> {/* Shifted left */}
+    <mesh ref={moonRef} position={[-2, 0, 1]} castShadow receiveShadow> {/* Shifted left */}
       <sphereGeometry 
         args={[2, 512, 512]} // Even higher resolution for smoother surface
       />
@@ -112,14 +112,17 @@ function Saturn() {
   useFrame(({ clock }) => {
     if (saturnRef.current) {
       // Rotate around the tilted axis
-      saturnRef.current.rotation.y += 0.002;
+      // saturnRef.current.rotation.x = Math.PI * 0.1 + Math.sin(clock.getElapsedTime() * 0.5)*0.5;
+      saturnRef.current.rotation.y = clock.getElapsedTime() * 0.1;
+      // saturnRef.current.rotation.z = Math.PI * -0.1 + Math.sin(clock.getElapsedTime() * 0.5)*0.1;
+
     }
   });
 
   return (
     <group 
       ref={saturnRef} 
-      position={[2.5, 0, 70]} 
+      position={[2, 0, 70]} 
       rotation={[Math.PI * 0.25, 0, -Math.PI * 0.1]} // Tilted at 45 degrees with slight z-axis rotation
       castShadow 
       receiveShadow
@@ -225,7 +228,7 @@ function Scene() {
         shadow-normalBias={0.05}
       />
       <pointLight
-        position={[2.5, 10, 70]}
+        position={[2, 10, 70]}
         intensity={50}
         color="#ffffff"
       />
