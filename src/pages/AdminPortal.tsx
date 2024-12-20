@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Upload, Image, X, Lock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { form } from 'framer-motion/client';
 
 const backend_url = import.meta.env.VITE_BACKEND_URL
 
@@ -19,12 +20,23 @@ export function AdminPortal() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === 'pacadmin') {
-      setIsAuthenticated(true);
-    } else {
-      alert('Invalid password');
+    try {
+      const formData = new FormData();
+      formData.append('password', password);
+      const response = await fetch(backend_url + '/handle_login', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.status === 202) {
+        setIsAuthenticated(true);
+      } else if (response.status === 401) {
+        alert('Invalid password');
+      }
+    } catch (error) {
+      alert('Error logging in, issue: ' + (error as Error).message);
     }
   };
 

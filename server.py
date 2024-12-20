@@ -102,5 +102,13 @@ def get_pac_times():
     except Exception as e:
         return jsonify({'error': f'Error retrieving issues: {str(e)}'}), 500
 
+@app.route("/handle_login", methods=["POST"])
+def handle_login():
+    password = request.form.get('password')
+    if password == 'pacadmin':
+        return jsonify({'message': 'Login successful'}), 202
+    else:
+        return jsonify({'error': 'Incorrect password'}), 401
+
 if __name__ == '__main__':
     app.run(debug=True)
