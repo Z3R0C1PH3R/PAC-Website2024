@@ -53,38 +53,47 @@ export function PACTimesPage() {
 
   return (
     <div className="pt-24 pb-16 px-4">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <img
-            src={`${backend_url}${issue.cover_image}`}
-            alt={issue.title}
-            className="w-full h-64 object-cover rounded-lg mb-8"
-          />
-          <h1 className="text-4xl font-bold mb-4">{issue.title}</h1>
-          <p className="text-purple-400 mb-8">Issue #{issue.issue_number} - {issue.issue_date}</p>
+          {/* Cover image with left alignment */}
+          <div className="mb-12 flex justify-start">
+            <img
+              src={`${backend_url}${issue.cover_image}`}
+              alt={issue.title}
+              className="max-h-[80vh] object-contain rounded-lg"
+            />
+          </div>
 
-          {issue.sections.map((section: any, index: number) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="mb-12"
-            >
-              <h2 className="text-2xl font-semibold mb-4">{section.heading}</h2>
-              <p className="text-gray-300 mb-6 whitespace-pre-wrap">{section.body}</p>
-              {section.image_path && (
-                <img
-                  src={`${backend_url}${section.image_path}`}
-                  alt={section.heading}
-                  className="w-full rounded-lg"
-                />
-              )}
-            </motion.div>
-          ))}
+          {/* Content section */}
+          <div className="max-w-4xl mx-auto">
+            <h1 className="text-4xl font-bold mb-4">{issue.title}</h1>
+            <p className="text-purple-400 mb-12">Issue #{issue.issue_number} - {issue.issue_date}</p>
+
+            {issue.sections.map((section: any, index: number) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="mb-16"
+              >
+                {section.image_path && (
+                  <div className="mb-6 flex justify-start">
+                    <img
+                      src={`${backend_url}${section.image_path}`}
+                      alt={section.heading}
+                      className="max-h-[500px] object-contain rounded-lg" // Increased height
+                    />
+                  </div>
+                )}
+                <h2 className="text-2xl font-semibold mb-4">{section.heading}</h2>
+                <p className="text-gray-300 whitespace-pre-wrap">{section.body}</p>
+              </motion.div>
+            ))}
+          </div>
         </motion.div>
       </div>
     </div>
