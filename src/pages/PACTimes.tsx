@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { BookOpen } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const backend_url = import.meta.env.VITE_BACKEND_URL;
 
@@ -8,6 +9,7 @@ export function PACTimes() {
   const [issues, setIssues] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchIssues = async () => {
@@ -28,8 +30,8 @@ export function PACTimes() {
     fetchIssues();
   }, []);
 
-  const handleReadIssue = (imagePath) => {
-    window.open(`${backend_url}${imagePath}`, '_blank');
+  const handleReadIssue = (issueNumber) => {
+    navigate(`/pac-times/${issueNumber}`);
   };
 
   if (loading) {
@@ -72,22 +74,20 @@ export function PACTimes() {
               className="bg-slate-800/50 backdrop-blur-md rounded-lg overflow-hidden"
             >
               <img
-                src={`${backend_url}${issue.image_path}`}
+                src={`${backend_url}${issue.cover_image}`}
                 alt={issue.title}
                 className="w-full h-48 object-cover"
               />
               <div className="p-6">
                 <div className="flex justify-between text-sm text-purple-400 mb-2">
                   <span>{issue.issue_date || 'No Issue Date'}</span>
-                  {/* <span>{issue.upload_date || ''}</span> */}
                 </div>
-                <h3 className="text-xl font-semibold mb-2">{issue.title}</h3>
-                <p className="text-gray-400 mb-4">{issue.description}</p>
+                <h3 className="text-xl font-semibold mb-4">{issue.title}</h3>
                 <button 
-                  onClick={() => handleReadIssue(issue.image_path)}
+                  onClick={() => handleReadIssue(issue.issue_number)}
                   className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors"
                 >
-                  Read Issue
+                  Read Full Issue
                 </button>
               </div>
             </motion.div>

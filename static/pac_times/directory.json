@@ -25,6 +25,20 @@
       "upload_date": "2024-11-05 01:59:06",
       "image_filename": "issue_5_2099805.jpg",
       "image_path": "/static/pac_times/issue_5_2099805.jpg"
+    },
+    {
+      "issue_number": "10",
+      "title": "1",
+      "issue_date": "2024-12-20",
+      "upload_date": "2024-12-20 14:26:21",
+      "cover_image": "/static/pac_times/issue_10_cover_0f2914bca65344be029724a689eeb863.jpg",
+      "sections": [
+        {
+          "heading": "meow",
+          "body": "Meow meow",
+          "image_path": "/static/pac_times/issue_10_section_0_1.png"
+        }
+      ]
     }
   ]
 }

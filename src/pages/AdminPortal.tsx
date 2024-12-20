@@ -11,13 +11,14 @@ export function AdminPortal() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [issueNumber, setIssueNumber] = useState('');
   const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
   const [issueDate, setIssueDate] = useState(() => {
     const today = new Date();
     return today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
   });
   const [coverImage, setCoverImage] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [numSections, setNumSections] = useState(1);
+  const [sections, setSections] = useState([{ image: null, heading: '', body: '' }]);
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -46,10 +47,27 @@ export function AdminPortal() {
     }
   };
 
+  const handleSectionChange = (index: number, field: string, value: any) => {
+    const newSections = [...sections];
+    newSections[index] = { ...newSections[index], [field]: value };
+    setSections(newSections);
+  };
+
+  const updateSectionCount = (count: number) => {
+    const newCount = Math.max(1, count);
+    setNumSections(newCount);
+    setSections(current => {
+      if (newCount > current.length) {
+        return [...current, ...Array(newCount - current.length).fill({ image: null, heading: '', body: '' })];
+      }
+      return current.slice(0, newCount);
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!coverImage || !issueNumber || !title || !description) {
+    if (!coverImage || !issueNumber || !title) {
       alert('Please fill in all required fields');
       return;
     }
@@ -58,11 +76,16 @@ export function AdminPortal() {
     
     try {
       const formData = new FormData();
-      formData.append('image', coverImage);
+      formData.append('cover_image', coverImage);
       formData.append('issue_number', issueNumber);
       formData.append('title', title);
-      formData.append('description', description);
       formData.append('issue_date', issueDate);
+      
+      sections.forEach((section, index) => {
+        if (section.image) formData.append(`section_${index}_image`, section.image);
+        formData.append(`section_${index}_heading`, section.heading);
+        formData.append(`section_${index}_body`, section.body);
+      });
 
       const response = await fetch(backend_url + '/upload_pac_times', {
         method: 'POST',
@@ -81,7 +104,8 @@ export function AdminPortal() {
       setCoverImage(null);
       setIssueNumber('');
       setTitle('');
-      setDescription('');
+      setNumSections(1);
+      setSections([{ image: null, heading: '', body: '' }]);
       setIssueDate(() => {
         const today = new Date();
         return today.toISOString().split('T')[0];
@@ -187,17 +211,6 @@ export function AdminPortal() {
             </div>
 
             <div className="mb-6">
-              <label className="block text-sm font-medium mb-2">Description</label>
-              <textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 min-h-[100px]"
-                placeholder="Enter issue description"
-                required
-              />
-            </div>
-
-            <div className="mb-6">
               <label className="block text-sm font-medium mb-2">Cover Image</label>
               <div className="bg-slate-700/50 border border-slate-600 rounded-lg p-4">
                 <label className="flex items-center justify-center cursor-pointer">
@@ -229,6 +242,56 @@ export function AdminPortal() {
                 </label>
               </div>
             </div>
+
+            <div className="mb-6">
+              <label className="block text-sm font-medium mb-2">Number of Sections</label>
+              <input
+                type="number"
+                min="1"
+                value={numSections}
+                onChange={(e) => updateSectionCount(parseInt(e.target.value))}
+                className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2"
+              />
+            </div>
+
+            {sections.map((section, index) => (
+              <div key={index} className="mb-8 p-4 border border-slate-600 rounded-lg">
+                <h3 className="text-lg font-medium mb-4">Section {index + 1}</h3>
+                
+                <div className="mb-4">
+                  <label className="block text-sm font-medium mb-2">Section Image</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      if (e.target.files?.[0]) {
+                        handleSectionChange(index, 'image', e.target.files[0]);
+                      }
+                    }}
+                    className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2"
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <label className="block text-sm font-medium mb-2">Section Heading</label>
+                  <input
+                    type="text"
+                    value={section.heading}
+                    onChange={(e) => handleSectionChange(index, 'heading', e.target.value)}
+                    className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2"
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <label className="block text-sm font-medium mb-2">Section Body</label>
+                  <textarea
+                    value={section.body}
+                    onChange={(e) => handleSectionChange(index, 'body', e.target.value)}
+                    className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2 min-h-[100px]"
+                  />
+                </div>
+              </div>
+            ))}
 
             <button
               type="submit"

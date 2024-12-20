@@ -51,43 +51,69 @@ def update_directory(issue_data):
 
 @app.route("/upload_pac_times", methods=["POST"])
 def upload_pac_times():
-    if 'image' not in request.files:
-        return jsonify({'error': 'No image file provided'}), 400
-    if not all(field in request.form for field in ['issue_number', 'title', 'description']):
+    if 'cover_image' not in request.files:
+        return jsonify({'error': 'No cover image provided'}), 400
+    if not all(field in request.form for field in ['issue_number', 'title']):
         return jsonify({'error': 'Missing required fields'}), 400
 
-    image = request.files['image']
-    issue_number = request.form.get('issue_number')
-    title = request.form.get('title')
-    description = request.form.get('description')
-    issue_date = request.form.get('issue_date', '')  # Optional issue date
-    
-    if image.filename == '':
-        return jsonify({'error': 'No selected file'}), 400
-    if not allowed_file(image.filename):
-        return jsonify({'error': 'Invalid file type. Allowed types: png, jpg, jpeg'}), 400
-
     try:
-        filename = secure_filename(f"issue_{issue_number}_{image.filename}")
-        image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        image.save(image_path)
+        # Handle cover image
+        cover_image = request.files['cover_image']
+        issue_number = request.form.get('issue_number')
+        title = request.form.get('title')
+        issue_date = request.form.get('issue_date', '')
+
+        if cover_image.filename == '':
+            return jsonify({'error': 'No selected cover image'}), 400
+        if not allowed_file(cover_image.filename):
+            return jsonify({'error': 'Invalid file type. Allowed types: png, jpg, jpeg'}), 400
+
+        # Save cover image
+        cover_filename = secure_filename(f"issue_{issue_number}_cover_{cover_image.filename}")
+        cover_path = os.path.join(app.config['UPLOAD_FOLDER'], cover_filename)
+        cover_image.save(cover_path)
+
+        # Process sections
+        sections = []
+        section_index = 0
+        
+        while f'section_{section_index}_heading' in request.form:
+            section_image = request.files.get(f'section_{section_index}_image')
+            section_heading = request.form.get(f'section_{section_index}_heading')
+            section_body = request.form.get(f'section_{section_index}_body')
+            
+            section_data = {
+                'heading': section_heading,
+                'body': section_body,
+                'image_path': None
+            }
+
+            # Handle section image if provided
+            if section_image and section_image.filename != '':
+                if allowed_file(section_image.filename):
+                    section_filename = secure_filename(f"issue_{issue_number}_section_{section_index}_{section_image.filename}")
+                    section_image_path = os.path.join(app.config['UPLOAD_FOLDER'], section_filename)
+                    section_image.save(section_image_path)
+                    section_data['image_path'] = f"/static/pac_times/{section_filename}"
+
+            sections.append(section_data)
+            section_index += 1
 
         # Update directory.json
         issue_data = {
             'issue_number': issue_number,
             'title': title,
-            'description': description,
             'issue_date': issue_date,
             'upload_date': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            'image_filename': filename,
-            'image_path': f"/static/pac_times/{filename}"
+            'cover_image': f"/static/pac_times/{cover_filename}",
+            'sections': sections
         }
         update_directory(issue_data)
 
         return jsonify({
             'message': 'Upload successful',
             'issue_number': issue_number,
-            'filename': filename
+            'filename': cover_filename
         }), 200
 
     except Exception as e:
