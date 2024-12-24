@@ -79,12 +79,12 @@ def upload_pac_times():
                 directory = json.load(f)
                 for issue in directory['issues']:
                     if issue['issue_number'] == issue_number:
-                        cover_image_path = issue['cover_image']
+                        cover_image_path = issue.get('cover_image')
                         break
         else:
             return jsonify({'error': 'No cover image provided'}), 400
 
-        # Process sections with existing images if editing
+        # Process sections
         sections = []
         section_index = 0
         
@@ -92,10 +92,10 @@ def upload_pac_times():
             section_data = {
                 'heading': request.form.get(f'section_{section_index}_heading'),
                 'body': request.form.get(f'section_{section_index}_body'),
-                'image_path': None
+                'image': None
             }
 
-            # Handle new section image
+            # Check for new section image
             if f'section_{section_index}_image' in request.files:
                 section_image = request.files[f'section_{section_index}_image']
                 if section_image and section_image.filename:
@@ -103,14 +103,13 @@ def upload_pac_times():
                         section_filename = secure_filename(f"issue_{issue_number}_section_{section_index}_{section_image.filename}")
                         section_image_path = os.path.join(app.config['UPLOAD_FOLDER'], section_filename)
                         section_image.save(section_image_path)
-                        section_data['image_path'] = f"/static/pac_times/{section_filename}"
-            elif is_edit:
-                # Keep existing section image if editing and no new image provided
-                with open(DIR_FILE, 'r') as f:
-                    directory = json.load(f)
-                    for issue in directory['issues']:
-                        if issue['issue_number'] == issue_number and len(issue['sections']) > section_index:
-                            section_data['image_path'] = issue['sections'][section_index].get('image_path')
+                        section_data['image'] = f"/static/pac_times/{section_filename}"
+
+            # Handle existing section image in edit mode
+            elif is_edit and f'section_{section_index}_existing_image' in request.form:
+                existing_image = request.form.get(f'section_{section_index}_existing_image')
+                if existing_image:
+                    section_data['image'] = existing_image
 
             sections.append(section_data)
             section_index += 1
@@ -124,14 +123,27 @@ def upload_pac_times():
             'cover_image': cover_image_path,
             'sections': sections
         }
-        
-        # Delete old files if this is an edit and new files were uploaded
+
+        # Handle old files cleanup in edit mode
         if is_edit:
             old_cover_image = request.form.get('old_cover_image')
             if old_cover_image and cover_image_path and old_cover_image != cover_image_path:
                 old_file_path = os.path.join(app.root_path, old_cover_image.lstrip('/'))
                 if os.path.exists(old_file_path):
                     os.remove(old_file_path)
+
+            # Get old issue data to compare section images
+            with open(DIR_FILE, 'r') as f:
+                directory = json.load(f)
+                old_issue = next((issue for issue in directory['issues'] 
+                                if issue['issue_number'] == issue_number), None)
+                if old_issue:
+                    for old_section in old_issue.get('sections', []):
+                        old_image = old_section.get('image')
+                        if old_image and old_image not in [s.get('image') for s in sections]:
+                            old_file_path = os.path.join(app.root_path, old_image.lstrip('/'))
+                            if os.path.exists(old_file_path):
+                                os.remove(old_file_path)
 
         update_directory(issue_data)
 
@@ -174,18 +186,18 @@ def delete_pac_times(issue_number):
         # Find and remove the issue
         for i, issue in enumerate(directory['issues']):
             if issue['issue_number'] == issue_number:
-                # Delete associated files
+                # Delete cover image
                 if issue.get('cover_image'):
-                    file_path = os.path.join(app.root_path, issue['cover_image'].lstrip('/'))
-                    if os.path.exists(file_path):
-                        os.remove(file_path)
+                    cover_path = os.path.join(app.root_path, issue['cover_image'].lstrip('/'))
+                    if os.path.exists(cover_path):
+                        os.remove(cover_path)
                 
-                # Delete section images if they exist
+                # Delete section images
                 for section in issue.get('sections', []):
-                    if section.get('image_path'):
-                        section_file_path = os.path.join(app.root_path, section['image_path'].lstrip('/'))
-                        if os.path.exists(section_file_path):
-                            os.remove(section_file_path)
+                    if section.get('image'):  # Changed from image_path to image
+                        section_path = os.path.join(app.root_path, section['image'].lstrip('/'))
+                        if os.path.exists(section_path):
+                            os.remove(section_path)
                 
                 # Remove from directory
                 directory['issues'].pop(i)
@@ -197,6 +209,7 @@ def delete_pac_times(issue_number):
         
         return jsonify({'message': 'Issue deleted successfully'}), 200
     except Exception as e:
+        app.logger.error(f"Delete error: {str(e)}")  # Added error logging
         return jsonify({'error': f'Error deleting issue: {str(e)}'}), 500
 
 if __name__ == '__main__':

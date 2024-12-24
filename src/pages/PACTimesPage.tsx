@@ -80,12 +80,12 @@ export function PACTimesPage() {
                 transition={{ delay: index * 0.1 }}
                 className="mb-16"
               >
-                {section.image_path && (
+                {section.image && (
                   <div className="mb-6 flex justify-start">
                     <img
-                      src={`${backend_url}${section.image_path}`}
+                      src={`${backend_url}${section.image}`}
                       alt={section.heading}
-                      className="max-h-[500px] object-contain rounded-lg" // Increased height
+                      className="max-h-[500px] object-contain rounded-lg"
                     />
                   </div>
                 )}

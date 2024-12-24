@@ -1,18 +1,3 @@
 {
-  "issues": [
-    {
-      "issue_number": "1",
-      "title": "Is the moon real?",
-      "issue_date": "2024-12-20",
-      "upload_date": "2024-12-20 19:22:44",
-      "cover_image": "/static/pac_times/issue_1_cover_FullMoon2010.jpg",
-      "sections": [
-        {
-          "heading": "Maybe, or maybe not?",
-          "body": "\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean faucibus sit amet odio id hendrerit. Maecenas metus nunc, consectetur at ultricies in, dapibus eu ante. Maecenas pulvinar, tortor molestie semper vestibulum, odio risus commodo felis, eu pharetra tellus ex sed urna. Fusce a est a lectus porttitor finibus. Cras in diam in nunc placerat viverra id a sapien. Ut ornare pellentesque nunc, eu congue mi lacinia eu. Quisque luctus mollis enim in euismod. Integer vitae nibh purus. Proin et magna in urna consequat rhoncus at in elit. Nullam in maximus libero, rhoncus tempor lectus. Pellentesque vestibulum vitae enim in venenatis.\r\n\r\nNunc auctor et dolor ut viverra. Sed et dapibus erat. Quisque vulputate faucibus nisi. Morbi tempor diam eget tellus semper, ultricies tincidunt libero facilisis. Donec vestibulum commodo viverra. Mauris maximus tincidunt nulla, ut placerat urna. Suspendisse et neque eros.\r\n\r\nVivamus sagittis lorem id volutpat faucibus. Fusce sed sem ut eros dignissim volutpat. Vestibulum volutpat eleifend fringilla. Pellentesque ac vestibulum velit. Nunc vitae massa vel augue pharetra pharetra. Proin ipsum lacus, tristique sed quam eget, vehicula lacinia tortor. Phasellus pulvinar urna ac condimentum elementum. Donec malesuada odio neque, ac rutrum augue fringilla ac. Suspendisse cursus nisl sit amet justo porttitor, eu finibus mi placerat. Pellentesque purus orci, cursus nec est a, convallis gravida sapien. Nunc a enim non urna blandit sagittis et nec lectus. Sed eu odio in sem iaculis fringilla sed ac orci. Sed vulputate nunc condimentum elementum porttitor. Nam rhoncus a odio eget luctus.\r\n\r\nNullam aliquet imperdiet justo quis imperdiet. Nullam lobortis velit id urna posuere eleifend. Cras eleifend erat nec felis fringilla mattis. Integer feugiat sapien felis, vel lacinia enim mattis quis. Suspendisse ac sodales leo. Aenean enim ipsum, vulputate eu ligula quis, hendrerit vestibulum libero. Vivamus diam nulla, maximus eu congue quis, semper porta enim. Sed suscipit ultricies elit et facilisis. Pellentesque non eros eget nisi suscipit rhoncus vel et mauris. Sed a mollis velit.\r\n\r\nCurabitur egestas malesuada scelerisque. Phasellus eget ipsum enim. Proin in ex at ex aliquet rhoncus. Fusce laoreet tempus luctus. Curabitur ipsum dolor, viverra ut risus pretium, elementum rutrum ipsum. Vestibulum id quam metus. Nam felis nibh, vestibulum quis ornare a, feugiat sit amet sapien. In nibh eros, rhoncus sit amet porta vel, volutpat sodales erat. Curabitur a mauris tempor, elementum arcu eget, bibendum ligula. Curabitur a massa ut quam tincidunt sollicitudin. Phasellus at turpis sapien. Suspendisse rutrum sapien ut purus euismod, eget consequat massa varius. Suspendisse potenti. ",
-          "image_path": "/static/pac_times/issue_1_section_0_M27_Falls_3557.jpg"
-        }
-      ]
-    }
-  ]
+  "issues": []
 }

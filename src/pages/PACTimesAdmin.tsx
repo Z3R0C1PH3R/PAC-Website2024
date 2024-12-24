@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Upload, Image, X, Plus, Eye, Trash2, ArrowLeft, Edit2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { compressImage } from '../utils/imageCompression';
+import { ImagePreview } from '../components/ImagePreview';
 
 const backend_url = import.meta.env.VITE_BACKEND_URL;
 
@@ -19,11 +21,20 @@ export function PACTimesAdmin() {
   const [numSections, setNumSections] = useState(1);
   const [sections, setSections] = useState([{ image: null, heading: '', body: '' }]);
   const [editingIssue, setEditingIssue] = useState(null);
+  const [coverQuality, setCoverQuality] = useState(80);
+  const [sectionQualities, setSectionQualities] = useState<number[]>([]);
+  const [originalCoverImage, setOriginalCoverImage] = useState<File | null>(null);
+  const [originalSectionImages, setOriginalSectionImages] = useState<(File | null)[]>([]);
+  const [existingSectionImages, setExistingSectionImages] = useState<string[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchExistingIssues();
   }, []);
+
+  useEffect(() => {
+    setSectionQualities(new Array(numSections).fill(80));
+  }, [numSections]);
 
   const fetchExistingIssues = async () => {
     try {
@@ -35,9 +46,43 @@ export function PACTimesAdmin() {
     }
   };
 
-  const handleCoverImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCoverImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      setCoverImage(e.target.files[0]);
+      const file = e.target.files[0];
+      setOriginalCoverImage(file);
+      const compressed = await compressImage(file, coverQuality);
+      setCoverImage(compressed);
+    }
+  };
+
+  const handleCoverQualityChange = async (quality: number) => {
+    setCoverQuality(quality);
+    if (originalCoverImage) {
+      const compressed = await compressImage(originalCoverImage, quality);
+      setCoverImage(compressed);
+    }
+  };
+
+  const handleSectionImageSelect = async (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      const newOriginalImages = [...originalSectionImages];
+      newOriginalImages[index] = file;
+      setOriginalSectionImages(newOriginalImages);
+      
+      const compressed = await compressImage(file, sectionQualities[index]);
+      handleSectionChange(index, 'image', compressed);
+    }
+  };
+
+  const handleSectionQualityChange = async (index: number, quality: number) => {
+    const newQualities = [...sectionQualities];
+    newQualities[index] = quality;
+    setSectionQualities(newQualities);
+
+    if (originalSectionImages[index]) {
+      const compressed = await compressImage(originalSectionImages[index]!, quality);
+      handleSectionChange(index, 'image', compressed);
     }
   };
 
@@ -85,10 +130,15 @@ export function PACTimesAdmin() {
     setTitle(issue.title);
     setIssueDate(issue.issue_date);
     setNumSections(issue.sections.length);
+    
+    // Store existing image paths
+    setExistingSectionImages(issue.sections.map((section: any) => section.image || ''));
+    
     setSections(issue.sections.map((section: any) => ({
       image: null,
       heading: section.heading,
-      body: section.body
+      body: section.body,
+      existingImage: section.image // Add this field to track existing images
     })));
     setEditingIssue(issue);
     setShowNewIssueForm(true);
@@ -133,7 +183,12 @@ export function PACTimesAdmin() {
       }
       
       sections.forEach((section, index) => {
-        if (section.image) formData.append(`section_${index}_image`, section.image);
+        if (section.image) {
+          formData.append(`section_${index}_image`, section.image);
+        } else if (editingIssue) {
+          // Send the existing image path if no new image is uploaded
+          formData.append(`section_${index}_existing_image`, existingSectionImages[index] || '');
+        }
         formData.append(`section_${index}_heading`, section.heading);
         formData.append(`section_${index}_body`, section.body);
       });
@@ -308,13 +363,43 @@ export function PACTimesAdmin() {
 
                 <div className="mb-6">
                   <label className="block text-sm font-medium mb-2">Cover Image</label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleCoverImageSelect}
-                    className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2"
-                    required={!editingIssue} // Only required for new issues
-                  />
+                  <div className="space-y-4">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleCoverImageSelect}
+                      className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2"
+                      required={!editingIssue}
+                    />
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm text-gray-400 w-16">Low (1%)</span>
+                        <input
+                          type="range"
+                          min="1"
+                          max="100"
+                          value={coverQuality}
+                          onChange={(e) => handleCoverQualityChange(Number(e.target.value))}
+                          className="w-full"
+                        />
+                        <span className="text-sm text-gray-400 w-20">High (100%)</span>
+                      </div>
+                      <span className="text-sm text-purple-400">Current Quality: {coverQuality}%</span>
+                    </div>
+                    {coverImage ? (
+                      <div className="mt-4">
+                        <p className="text-sm font-medium mb-2">Preview:</p>
+                        <ImagePreview file={coverImage} className="max-h-48 max-w-full" />
+                      </div>
+                    ) : (
+                      editingIssue && editingIssue.cover_image && (
+                        <div className="mt-4">
+                          <p className="text-sm font-medium mb-2">Current Image:</p>
+                          <ImagePreview url={`${backend_url}${editingIssue.cover_image}`} className="max-h-48 max-w-full" />
+                        </div>
+                      )
+                    )}
+                  </div>
                   {editingIssue && !coverImage && (
                     <p className="text-sm text-gray-400 mt-2">
                       Leave empty to keep the existing cover image
@@ -340,16 +425,45 @@ export function PACTimesAdmin() {
                     
                     <div className="mb-4">
                       <label className="block text-sm font-medium mb-2">Section Image (Optional)</label>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => {
-                          if (e.target.files?.[0]) {
-                            handleSectionChange(index, 'image', e.target.files[0]);
-                          }
-                        }}
-                        className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2"
-                      />
+                      <div className="space-y-4">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => handleSectionImageSelect(index, e)}
+                          className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2"
+                        />
+                        <div className="flex flex-col gap-2">
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm text-gray-400 w-16">Low (1%)</span>
+                            <input
+                              type="range"
+                              min="1"
+                              max="100"
+                              value={sectionQualities[index] || 80}
+                              onChange={(e) => handleSectionQualityChange(index, Number(e.target.value))}
+                              className="w-full"
+                            />
+                            <span className="text-sm text-gray-400 w-20">High (100%)</span>
+                          </div>
+                          <span className="text-sm text-purple-400">Current Quality: {sectionQualities[index] || 80}%</span>
+                        </div>
+                        {sections[index].image ? (
+                          <div className="mt-4">
+                            <p className="text-sm font-medium mb-2">Preview:</p>
+                            <ImagePreview file={sections[index].image} className="max-h-48 max-w-full" />
+                          </div>
+                        ) : (
+                          editingIssue && existingSectionImages[index] && (
+                            <div className="mt-4">
+                              <p className="text-sm font-medium mb-2">Current Image:</p>
+                              <ImagePreview 
+                                url={`${backend_url}${existingSectionImages[index]}`} 
+                                className="max-h-48 max-w-full" 
+                              />
+                            </div>
+                          )
+                        )}
+                      </div>
                     </div>
 
                     <div className="mb-4">
@@ -370,6 +484,21 @@ export function PACTimesAdmin() {
                         className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2 min-h-[100px]"
                       />
                     </div>
+
+                    {/* Add preview for existing images */}
+                    {editingIssue && existingSectionImages[index] && !section.image && (
+                      <div className="mt-4">
+                        <p className="text-sm font-medium mb-2">Current Image:</p>
+                        <img 
+                          src={`${backend_url}${existingSectionImages[index]}`}
+                          alt={`Section ${index + 1}`}
+                          className="max-h-48 max-w-full rounded-lg"
+                        />
+                        <p className="text-sm text-gray-400 mt-2">
+                          Upload a new image to replace this one
+                        </p>
+                      </div>
+                    )}
                   </div>
                 ))}
 
