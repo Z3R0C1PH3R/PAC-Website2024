@@ -103,6 +103,16 @@ export function PACTimesAdmin() {
       return;
     }
 
+    // Validate sections
+    const isValidSections = sections.every(section => 
+      section.image || section.heading || section.body
+    );
+
+    if (!isValidSections) {
+      alert('Each section must have at least one of: image, heading, or body');
+      return;
+    }
+
     setIsSubmitting(true);
     
     try {
@@ -326,9 +336,10 @@ export function PACTimesAdmin() {
                 {sections.map((section, index) => (
                   <div key={index} className="mb-8 p-4 border border-slate-600 rounded-lg">
                     <h3 className="text-lg font-medium mb-4">Section {index + 1}</h3>
+                    <p className="text-sm text-gray-400 mb-4">At least one of image, heading, or body is required</p>
                     
                     <div className="mb-4">
-                      <label className="block text-sm font-medium mb-2">Section Image</label>
+                      <label className="block text-sm font-medium mb-2">Section Image (Optional)</label>
                       <input
                         type="file"
                         accept="image/*"
@@ -342,7 +353,7 @@ export function PACTimesAdmin() {
                     </div>
 
                     <div className="mb-4">
-                      <label className="block text-sm font-medium mb-2">Section Heading</label>
+                      <label className="block text-sm font-medium mb-2">Section Heading (Optional)</label>
                       <input
                         type="text"
                         value={section.heading}
@@ -352,7 +363,7 @@ export function PACTimesAdmin() {
                     </div>
 
                     <div className="mb-4">
-                      <label className="block text-sm font-medium mb-2">Section Body</label>
+                      <label className="block text-sm font-medium mb-2">Section Body (Optional)</label>
                       <textarea
                         value={section.body}
                         onChange={(e) => handleSectionChange(index, 'body', e.target.value)}
