@@ -6,6 +6,8 @@ import { PACTimes } from './pages/PACTimes';
 import { PACTimesPage } from './pages/PACTimesPage';
 import { AdminPortal } from './pages/AdminPortal';
 import { PACTimesAdmin } from './pages/PACTimesAdmin';
+import {Teams} from './pages/Teams';
+
 
 function App() {
   return (
@@ -19,6 +21,7 @@ function App() {
             <Route path="/pac-times/:issueNumber" element={<PACTimesPage />} />
             <Route path="/admin" element={<AdminPortal />} />
             <Route path="/admin/pac-times" element={<PACTimesAdmin />} />
+            <Route path="/teams" element={<Teams />} />
           </Routes>
         </main>
         <Footer />
