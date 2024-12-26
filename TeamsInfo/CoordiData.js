@@ -7,13 +7,13 @@ import Nabyendu_coordi from "../TeamsInfo/TeamPhotos/research-rocketry/Nabyendu_
 import Nikhil_coordi from "../TeamsInfo/TeamPhotos/research-rocketry/Nikhil_Coordi.jpeg"
 import Arkapal_coordi from "../TeamsInfo/TeamPhotos/research-theoritical/Arkapal_coordi.webp"
 import saket_coordi from "../TeamsInfo/TeamPhotos/outreach-marketing/Saket Kumar Singh _Coordinator.jpeg"
-import sidharth_coordi from ""
-import gaurav_coordi from ""
+// import sidharth_coordi from ""
+// import gaurav_coordi from ""
 
 
 import DivyanshuBansal_OC from "../TeamsInfo/TeamPhotos/Divyanshu Bansal_OC-min.png"
 
-export const CoordiData =[
+const CoordiData =[
     {
         "Name": "Divyanshu Bansal",
         "Entry Number": "2021CS50603",
@@ -78,7 +78,7 @@ export const CoordiData =[
         "Domain": "Creative",
         "Field": "Design",
         "Position": "Coordinator",
-        img:sidharth_coordi
+        // img:sidharth_coordi
     },
     {
         "Name": "Sakshi Padir",
@@ -111,7 +111,7 @@ export const CoordiData =[
         "Domain": "Outreach",
         "Field": "Head",
         "Position": "Coordinator",
-        img:gaurav_coordi
+        // img:gaurav_coordi
     },
     {
         "Name": "Rashmi Vijay",
@@ -136,3 +136,5 @@ export const CoordiData =[
         img:Nikhil_coordi
     }
 ]
+
+export default CoordiData

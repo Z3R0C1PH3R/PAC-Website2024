@@ -6,7 +6,7 @@ import { PACTimes } from './pages/PACTimes';
 import { PACTimesPage } from './pages/PACTimesPage';
 import { AdminPortal } from './pages/AdminPortal';
 import { PACTimesAdmin } from './pages/PACTimesAdmin';
-import {Teams} from './pages/Teams';
+import {Teams} from './pages/Teams.js';
 
 
 function App() {

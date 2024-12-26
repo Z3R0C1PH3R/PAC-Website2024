@@ -22,7 +22,7 @@ import Naman_exe from "../TeamsInfo/TeamPhotos/research-rocketry/Naman_exe.jpg"
 import Richik_exe from "../TeamsInfo/TeamPhotos/research-rocketry/Richik_exe.jpg"
 import Sanidhya_exe from "../TeamsInfo/TeamPhotos/research-rocketry/Sanidhya_exe.jpg"
 import ShlokTripathi_exe from "../TeamsInfo/TeamPhotos/research-rocketry/Shlok_Tripathi.jpg"
-import amritanshu_exe from ""
+// import amritanshu_exe from ""
 
 import akshat_exe from "../TeamsInfo/TeamPhotos/research-theoritical/Akshat_Exe.jpg"
 import anoop_exe from "../TeamsInfo/TeamPhotos/research-theoritical/Anoop_Exe.jpg"
@@ -30,7 +30,7 @@ import vibhor_exe from "../TeamsInfo/TeamPhotos/research-theoritical/Vibhor_exe.
 
 
 
-export const ExeData =[
+const ExeData =[
     {
         "Name": "Akshat",
         "Entry Number": "2023MT60066",
@@ -84,7 +84,7 @@ export const ExeData =[
         "Domain": "Research",
         "Field": "Rocketry",
         "Position": "Executive",
-        img:amritanshu_exe 
+        // img:amritanshu_exe 
     },
     {
         "Name": "Shlok Tripathi",
@@ -285,3 +285,6 @@ export const ExeData =[
         img:Socrates_exe
     }
 ]
+
+
+export default ExeData
