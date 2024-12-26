@@ -1,6 +1,6 @@
 import Aditi_exe from "../TeamsInfo/TeamPhotos/creative-design&media/Aditi_exe.jpg"
 import Agnik_exe from "../TeamsInfo/TeamPhotos/creative-design&media/Agnik_exe.jpg"
-import Bhavya_exe from "../TeamPhotos/creative-design&media/Bhavya_exe.jpeg"
+import Bhavya_exe from "../TeamsInfo/TeamPhotos/creative-design&media/Bhavya_exe.jpeg"
 import Socrates_exe from "../TeamsInfo/TeamPhotos/creative-design&media/Socrates_exe.jpg"
 
 import AryanSingh_exe from "../TeamsInfo/TeamPhotos/creative-journo/Aryan Singh_exe.jpg"
@@ -14,7 +14,7 @@ import KartikayaSrivastava_exe from "../TeamsInfo/TeamPhotos/outreach-events/Kar
 import Vivek_exe from "../TeamsInfo/TeamPhotos/outreach-events/Vivek_Exe.jpg"
 
 import HardikAgarwal_exe from "../TeamsInfo/TeamPhotos/outreach-marketing/Hardik Agarwal_EXE.jpg"
-import NupurSinghi_exe from "../TeamsInfo/TeamPhotos/outreach-marketing/nurpur singhi.jpeg"
+import NupurSinghi_exe from "../TeamsInfo/TeamPhotos/outreach-marketing/nupur singhi.jpeg"
 import SarthakMaurya_exe from "../TeamsInfo/TeamPhotos/outreach-marketing/Sarthak Maurya_EXE.jpg"
 import SrishitiSahu_exe from "../TeamsInfo/TeamPhotos/outreach-marketing/Srishti Sahu.jpg"
 
@@ -84,7 +84,7 @@ export const ExeData =[
         "Domain": "Research",
         "Field": "Rocketry",
         "Position": "Executive",
-        img:amritanshu_exe
+        img:amritanshu_exe 
     },
     {
         "Name": "Shlok Tripathi",

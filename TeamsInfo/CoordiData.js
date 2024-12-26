@@ -2,10 +2,11 @@ import Rashmi_coordi from "../TeamsInfo/TeamPhotos/creative-design&media/Rashmi_
 import aneeket_coordi from "../TeamsInfo/TeamPhotos/creative-journo/aneeket_coordi.jpeg"
 import aryan_coordi from "../TeamsInfo/TeamPhotos/creative-tech/ARYAN CHOUDHARY_COORDI.jpg"
 import sakshi_coordi from "../TeamsInfo/TeamPhotos/outreach-events/Sakshi.jpg"
-import saket_coordi from "../TeamsInfo/TeamPhotos/outreach-marketing/Saket Kumar Singh_Coordinator.jpeg" 
+
 import Nabyendu_coordi from "../TeamsInfo/TeamPhotos/research-rocketry/Nabyendu_Coordi.JPG"
 import Nikhil_coordi from "../TeamsInfo/TeamPhotos/research-rocketry/Nikhil_Coordi.jpeg"
 import Arkapal_coordi from "../TeamsInfo/TeamPhotos/research-theoritical/Arkapal_coordi.webp"
+import saket_coordi from "../TeamsInfo/TeamPhotos/outreach-marketing/Saket Kumar Singh _Coordinator.jpeg"
 import sidharth_coordi from ""
 import gaurav_coordi from ""
 

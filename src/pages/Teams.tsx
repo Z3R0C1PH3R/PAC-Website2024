@@ -1,11 +1,15 @@
-import React from 'react'
+//@ts-ignore
 
-import EXEdata from ''
+import ExeData from '../../TeamsInfo/ExeData.js'
+//@ts-ignore
+
+import CoordiData from '../../TeamsInfo/CoordiData.js'
+
 
 export function Teams() {
   return (
     <div>
-        {}
+        
     </div>
   )
 }

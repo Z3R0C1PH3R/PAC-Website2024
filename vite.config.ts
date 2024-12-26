@@ -8,5 +8,6 @@ export default defineConfig({
   },
   preview: {
     historyApiFallback: true
-  }
+  },
+  assetsInclude: ['**/*.jpg', '**/*.jpeg', '**/*.png', '**/*.gif', '**/*.svg'] // Include image formats here
 })
