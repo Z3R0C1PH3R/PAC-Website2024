@@ -11,7 +11,7 @@ export function Navbar() {
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'PAC Times', path: '/pac-times' },
-    { name: 'Teams', path: '/teams' },
+    { name: 'Team', path: '/teams' },
     // { name: 'Admin', path: '/admin' }
   ];
 

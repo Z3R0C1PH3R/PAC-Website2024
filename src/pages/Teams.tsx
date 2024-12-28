@@ -1,50 +1,47 @@
 import teamdata from '../../TeamsInfo/TeamsData.json'
 
+function showMembers(position: string) {
+  return (
+    <div style={styles.cardContainer}>
+      {
+      
+      teamdata.filter((member)=>member.Position == position).map((member, index) => (
+        <div key={index} style={styles.card}>
+          <div style={styles.imageContainer}>
+            <img src={member.img} alt={member.Name} style={styles.cardImage} />
+            <div style={styles.glow} />
+          </div>
+          <h3 style={styles.name}>{member.Name}</h3>
+          <p style={styles.detail}>{member.Field} {member.Position}</p>
+          {/* <p style={styles.detail}><strong>Domain:</strong> {member.Domain}</p> */}
+          {/* <p style={styles.detail}><strong>Field:</strong> {member.Field}</p> */}
+          <p style={styles.detail}>{member.Email}</p>
+          {['Overall Coordinator', 'CTM'].includes(member.Position) ? (<p style={styles.detail}><strong>Number:</strong> {member['Mobile Number']}</p>) : null}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export function Teams() {
   return (
     <div style={styles.container}>
       <h1 style={styles.title}>Team</h1>
 
-      {/* Coordinator Members */}
-      <h2 style={styles.sectionTitle}>Coordinators</h2>
-      <div style={styles.cardContainer}>
-        {
-        
-        teamdata.filter((member)=>member.Position == 'Coordinator' || member.Position == 'Overall Coordinator').map((member, index) => (
-          <div key={index} style={styles.card}>
-            <div style={styles.imageContainer}>
-              <img src={member.img} alt={member.Name} style={styles.cardImage} />
-              <div style={styles.glow} />
-            </div>
-            <h3 style={styles.name}>{member.Name}</h3>
-            <p style={styles.detail}><strong>Position:</strong> {member.Position}</p>
-            <p style={styles.detail}><strong>Domain:</strong> {member.Domain}</p>
-            <p style={styles.detail}><strong>Field:</strong> {member.Field}</p>
-            <p style={styles.detail}><strong>Email:</strong> {member.Email}</p>
-            {['Aryan','Gaurav Verma','Nikhil Singh','Rashmi Vijay'].includes(member.Name) ? (<p style={styles.detail}><strong>Number:</strong> {member['Mobile Number']}</p>) : null}
-          </div>
-        ))}
-      </div>
+      {showMembers('Faculty Incharge')}
+      {showMembers('Overall Coordinator')}
 
-      {/* Executive Members */}
+
+      <h2 style={styles.sectionTitle}>CTMs</h2>
+      {showMembers('CTM')}
+
+      <h2 style={styles.sectionTitle}>Coordinators</h2>
+      {showMembers('Coordinator')}
+
       <h2 style={styles.sectionTitle}>Executives</h2>
-      <div style={styles.cardContainer}>
-        {
-      
-        teamdata.filter((member)=> member.Position == 'Executive').map((member, index) => (
-          <div key={index} style={styles.card}>
-            <div style={styles.imageContainer}>
-              <img src={member.img } alt={member.Name} style={styles.cardImage} />
-              <div style={styles.glow} />
-            </div>
-            <h3 style={styles.name}>{member.Name}</h3>
-            <p style={styles.detail}><strong>Position:</strong> {member.Position}</p>
-            <p style={styles.detail}><strong>Domain:</strong> {member.Domain}</p>
-            <p style={styles.detail}><strong>Field:</strong> {member.Field}</p>
-            <p style={styles.detail}><strong>Email:</strong> {member.Email}</p>
-          </div>
-        ))}
-      </div>
+      {showMembers('Executive')}
+
+      {/* Core Members */}
     </div>
   );
 }

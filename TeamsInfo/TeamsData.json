@@ -1,5 +1,16 @@
 [
     {
+        "Name": "Suprit Singh",
+        "Entry Number": "",
+        "Email": "suprit@pysics.iitd.ac.in",
+        "Mobile Number": "",
+        "Hostel": "",
+        "Domain": "",
+        "Field": "",
+        "Position": "Faculty Incharge",
+        "img":"../TeamsInfo/TeamPhotos/Suprit_Sir.png"
+    },
+    {
         "Name": "Divyanshu Bansal",
         "Entry Number": "2021CS50603",
         "Email": "cs5210603@iitd.ac.in",
@@ -11,7 +22,7 @@
         "img":"../TeamsInfo/TeamPhotos/Divyanshu_Bansal_OC.png"
     },
     {
-        "Name": "Aryan",
+        "Name": "Aryan Choudhary",
         "Entry Number": "2023ES10842",
         "Email": "es1230842@iitd.ac.in",
         "Mobile Number": "7371871087",
@@ -94,9 +105,9 @@
         "Mobile Number": "7988719774",
         "Hostel": "Girnar",
         "Domain": "Outreach",
-        "Field": "Head",
-        "Position": "Coordinator",
-        "img":""
+        "Field": "Outreach",
+        "Position": "CTM",
+        "img":"../TeamsInfo/TeamPhotos/creative-design&media/Gaurav_Verma.jpeg"
     },
     {
         "Name": "Rashmi Vijay",
@@ -105,8 +116,8 @@
         "Mobile Number": "9358591809",
         "Hostel": "Himadri",
         "Domain": "Creative",
-        "Field": "Head",
-        "Position": "Coordinator",
+        "Field": "Creative",
+        "Position": "CTM",
         "img":"../TeamsInfo/TeamPhotos/creative-design&media/Rashmi_Coordi.jpeg"
     },
     {
@@ -116,8 +127,8 @@
         "Mobile Number": "7080708121",
         "Hostel": "Day Scholar",
         "Domain": "Research",
-        "Field": "Head",
-        "Position": "Coordinator",
+        "Field": "Research",
+        "Position": "CTM",
         "img":"../TeamsInfo/TeamPhotos/research-rocketry/Nikhil_Coordi.jpeg"
     },
 
@@ -174,7 +185,7 @@
         "Domain": "Research",
         "Field": "Rocketry",
         "Position": "Executive",
-        "img":"" 
+        "img":"../TeamsInfo/TeamPhotos/research-theoritical/Amritanshu_singh.jpeg" 
     },
     {
         "Name": "Shlok Tripathi",
@@ -273,7 +284,7 @@
         "Domain": "Creative",
         "Field": "Journalism",
         "Position": "Executive",
-        "img":"../TeamsInfo/TeamPhotos/creative-journo/Aryan Singh_exe.jpg"
+        "img":"../TeamsInfo/TeamPhotos/creative-journo/Aryan_Singh_Exe.jpg"
     },
     {
         "Name": "Kartikeya",
@@ -317,7 +328,7 @@
         "Domain": "Outreach",
         "Field": "Events",
         "Position": "Executive",
-        "img":"../TeamsInfo/TeamPhotos/outreach-events/isha_exe.jpg"
+        "img":"../TeamsInfo/TeamPhotos/outreach-events/Isha_exe.jpg"
     },
     {
         "Name": "Srishti Sahu",
