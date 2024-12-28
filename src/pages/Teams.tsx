@@ -45,6 +45,7 @@ function TeamSection({ title, positions }: { title: string, positions: string|st
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
           transition={{ duration: 0.8 }}
           className="text-3xl text-center font-semibold mt-16 mb-8"
         >
