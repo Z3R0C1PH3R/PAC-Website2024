@@ -1,0 +1,394 @@
+[
+    {
+        "Name": "Suprit Singh",
+        "Entry Number": "",
+        "Email": "suprit@pysics.iitd.ac.in",
+        "Mobile Number": "",
+        "Hostel": "",
+        "Domain": "",
+        "Field": "",
+        "Position": "Faculty Incharge",
+        "img":"../TeamsInfo/TeamPhotos/Suprit_Sir.png"
+    },
+    {
+        "Name": "Divyanshu Bansal",
+        "Entry Number": "2021CS50603",
+        "Email": "cs5210603@iitd.ac.in",
+        "Mobile Number": "9024396430",
+        "Hostel": "Girnar",
+        "Domain": "",
+        "Field": "",
+        "Position": "Overall Coordinator",
+        "img":"../TeamsInfo/TeamPhotos/Divyanshu_Bansal_OC.png"
+    },
+    {
+        "Name": "Aryan Choudhary",
+        "Entry Number": "2023ES10842",
+        "Email": "es1230842@iitd.ac.in",
+        "Mobile Number": "7371871087",
+        "Hostel": "Karakoram",
+        "Domain": "Creative",
+        "Field": "Technical",
+        "Position": "Coordinator",
+        "img":"../TeamsInfo/TeamPhotos/creative-tech/ARYAN_CHOUDHARY_COORDI.jpg"
+    },
+    {
+        "Name": "Nabyendu Mukherjee",
+        "Entry Number": "2023ESN2348",
+        "Email": "esn232348@iitd.ac.in",
+        "Mobile Number": "9609129231",
+        "Hostel": "Udaigiri",
+        "Domain": "Research",
+        "Field": "Experimental",
+        "Position": "Coordinator",
+        "img":"../TeamsInfo/TeamPhotos/research-rocketry/Nabyendu_Coordi.JPG"
+    },
+    {
+        "Name": "Saket Kumar Singh",
+        "Entry Number": "2022CH71478",
+        "Email": "ch7221478@iitd.ac.in",
+        "Mobile Number": "9629746002",
+        "Hostel": "Vindhyachal",
+        "Domain": "Outreach",
+        "Field": "Marketing",
+        "Position": "Coordinator",
+        "img":"../TeamsInfo/TeamPhotos/outreach-marketing/Saket Kumar Singh _Coordinator.jpeg"
+    },
+    {
+        "Name": "Arkapal Mondal",
+        "Entry Number": "2022PHZ8027",
+        "Email": "phz228027@iitd.ac.in",
+        "Mobile Number": "8910928903",
+        "Hostel": "Day Scholar",
+        "Domain": "Research",
+        "Field": "Theoretical",
+        "Position": "Coordinator",
+        "img":"../TeamsInfo/TeamPhotos/research-theoritical/Arkapal_coordi.webp"
+    },
+    {
+        "Name": "Sidharth Barman",
+        "Entry Number": "2022DD14765",
+        "Email": "dd1224765@iitd.ac.in",
+        "Mobile Number": "8708952632",
+        "Hostel": "Satpura",
+        "Domain": "Creative",
+        "Field": "Design",
+        "Position": "Coordinator",
+        "img":""
+    },
+    {
+        "Name": "Sakshi Padir",
+        "Entry Number": "2022PH11868",
+        "Email": "ph1221868@iitd.ac.in",
+        "Mobile Number": "9765052627",
+        "Hostel": "Himadri",
+        "Domain": "Outreach",
+        "Field": "Events",
+        "Position": "Coordinator",
+        "img":"../TeamsInfo/TeamPhotos/outreach-events/Sakshi.jpg"
+    },
+    {
+        "Name": "Aneeket Yadav",
+        "Entry Number": "2022CS11116",
+        "Email": "cs1221116@iitd.ac.in",
+        "Mobile Number": "9205086194",
+        "Hostel": "Girnar",
+        "Domain": "Creative",
+        "Field": "Journalism",
+        "Position": "Coordinator",
+        "img":"../TeamsInfo/TeamPhotos/creative-journo/aneeket_coordi.jpeg"
+    },
+    {
+        "Name": "Gaurav Verma",
+        "Entry Number": "2022AM11825",
+        "Email": "am1221825@iitd.ac.in",
+        "Mobile Number": "7988719774",
+        "Hostel": "Girnar",
+        "Domain": "Outreach",
+        "Field": "Outreach",
+        "Position": "CTM",
+        "img":"../TeamsInfo/TeamPhotos/creative-design&media/Gaurav_Verma.jpeg"
+    },
+    {
+        "Name": "Rashmi Vijay",
+        "Entry Number": "2022MT11957",
+        "Email": "mt1221957@iitd.ac.in",
+        "Mobile Number": "9358591809",
+        "Hostel": "Himadri",
+        "Domain": "Creative",
+        "Field": "Creative",
+        "Position": "CTM",
+        "img":"../TeamsInfo/TeamPhotos/creative-design&media/Rashmi_Coordi.jpeg"
+    },
+    {
+        "Name": "Nikhil Singh",
+        "Entry Number": "2023ESN2364",
+        "Email": "esn232364@iitd.ac.in",
+        "Mobile Number": "7080708121",
+        "Hostel": "Day Scholar",
+        "Domain": "Research",
+        "Field": "Research",
+        "Position": "CTM",
+        "img":"../TeamsInfo/TeamPhotos/research-rocketry/Nikhil_Coordi.jpeg"
+    },
+
+    {
+        "Name": "Akshat",
+        "Entry Number": "2023MT60066",
+        "Email": "mt6230066@iitd.ac.in",
+        "Mobile Number": "9971859102",
+        "Hostel": "Girnar",
+        "Domain": "Research",
+        "Field": "Theoretical",
+        "Position": "Executive",
+        "img":"../TeamsInfo/TeamPhotos/research-theoritical/Akshat_Exe.jpg"
+    },
+    {
+        "Name": "Vibhor Jain",
+        "Entry Number": "2023MT60149",
+        "Email": "mt6230149@iitd.ac.in",
+        "Mobile Number": "9717232874",
+        "Hostel": "Zanskar",
+        "Domain": "Research",
+        "Field": "Theoretical",
+        "Position": "Executive",
+        "img":"../TeamsInfo/TeamPhotos/research-theoritical/Vibhor_exe.jpeg"
+    },
+    {
+        "Name": "Anoop Singh",
+        "Entry Number": "2023CS10459",
+        "Email": "cs1230459@iitd.ac.in",
+        "Mobile Number": "8604240906",
+        "Hostel": "Girnar",
+        "Domain": "Research",
+        "Field": "Theoretical",
+        "Position": "Executive",
+        "img":"../TeamsInfo/TeamPhotos/research-theoritical/Anoop_Exe.jpg"
+    },
+    {
+        "Name": "Naman Dhankar",
+        "Entry Number": "2023CE10903",
+        "Email": "ce1230903@iitd.ac.in",
+        "Mobile Number": "9871862781",
+        "Hostel": "Aravali",
+        "Domain": "Research",
+        "Field": "Rocketry",
+        "Position": "Executive",
+        "img":"../TeamsInfo/TeamPhotos/research-rocketry/Naman_exe.jpg"
+    },
+    {
+        "Name": "Amritanshu Singh",
+        "Entry Number": "2023PH10289",
+        "Email": "ph1230289@iitd.ac.in",
+        "Mobile Number": "7771020672",
+        "Hostel": "Karakoram",
+        "Domain": "Research",
+        "Field": "Rocketry",
+        "Position": "Executive",
+        "img":"../TeamsInfo/TeamPhotos/research-theoritical/Amritanshu_singh.jpeg" 
+    },
+    {
+        "Name": "Shlok Tripathi",
+        "Entry Number": "2023ME21155",
+        "Email": "me2231155@iitd.ac.in",
+        "Mobile Number": "9136651928",
+        "Hostel": "Aravali",
+        "Domain": "Research",
+        "Field": "Rocketry",
+        "Position": "Executive",
+        "img":"../TeamsInfo/TeamPhotos/research-rocketry/Shlok_Tripathi.jpg"
+    },
+    {
+        "Name": "Sanidhya Bhupesh",
+        "Entry Number": "2024ESN2211",
+        "Email": "esn242209@iitd.ac.in",
+        "Mobile Number": "8619336438",
+        "Hostel": "Udaigiri",
+        "Domain": "Research",
+        "Field": "Rocketry",
+        "Position": "Executive",
+        "img":"../TeamsInfo/TeamPhotos/research-rocketry/Sanidhya_exe.jpg"
+    },
+    {
+        "Name": "Richik Datta",
+        "Entry Number": "2024ESN2197",
+        "Email": "esn242197@iitd.ac.in",
+        "Mobile Number": "9062681478",
+        "Hostel": "Kumaon",
+        "Domain": "Research",
+        "Field": "Rocketry",
+        "Position": "Executive",
+        "img":"../TeamsInfo/TeamPhotos/research-rocketry/Richik_exe.jpg"
+    },
+    {
+        "Name": "Suhani",
+        "Entry Number": "2023AM10984",
+        "Email": "am1230984@iitd.ac.in",
+        "Mobile Number": "8448257286",
+        "Hostel": "Kailash",
+        "Domain": "Creative",
+        "Field": "Technical",
+        "Position": "Executive",
+        "img":"../TeamsInfo/TeamPhotos/creative-tech/SUHANI_EXE.jpg"
+    },
+    {
+        "Name": "Kunal",
+        "Entry Number": "2023TT10628",
+        "Email": "tt1230628@iitd.ac.in",
+        "Mobile Number": "9256473721",
+        "Hostel": "Girnar",
+        "Domain": "Creative",
+        "Field": "Technical",
+        "Position": "Executive",
+        "img":"../TeamsInfo/TeamPhotos/creative-tech/KUNAL_EXE.jpg"
+    },
+    {
+        "Name": "Bhavya Bahuguna",
+        "Entry Number": "2023TT10313",
+        "Email": "tt1230313@iitd.ac.in",
+        "Mobile Number": "9354820360",
+        "Hostel": "Kailash",
+        "Domain": "Creative",
+        "Field": "Design",
+        "Position": "Executive",
+        "img":"../TeamsInfo/TeamPhotos/creative-design&media/Bhavya_exe.jpeg"
+    },
+    {
+        "Name": "Agnik Halder",
+        "Entry Number": "2023EE30778",
+        "Email": "ee3230778@iitd.ac.in",
+        "Mobile Number": "8509663044",
+        "Hostel": "Zanskar",
+        "Domain": "Creative",
+        "Field": "Design",
+        "Position": "Executive",
+        "img":"../TeamsInfo/TeamPhotos/creative-design&media/Agnik_exe.jpg"
+    },
+    {
+        "Name": "Aditi Priya",
+        "Entry Number": "2023CE10803",
+        "Email": "ce1230803@iitd.ac.in",
+        "Mobile Number": "9931150062",
+        "Hostel": "Kailash",
+        "Domain": "Creative",
+        "Field": "Design",
+        "Position": "Executive",
+        "img":"../TeamsInfo/TeamPhotos/creative-design&media/Aditi_exe.jpg"
+    },
+    {
+        "Name": "Aryan Singh",
+        "Entry Number": "2023PH10663",
+        "Email": "ph1230663@iitd.ac.in",
+        "Mobile Number": "7292828660",
+        "Hostel": "Girnar",
+        "Domain": "Creative",
+        "Field": "Journalism",
+        "Position": "Executive",
+        "img":"../TeamsInfo/TeamPhotos/creative-journo/Aryan_Singh_Exe.jpg"
+    },
+    {
+        "Name": "Kartikeya",
+        "Entry Number": "2023PH10668",
+        "Email": "ph1230668@iitd.ac.in",
+        "Mobile Number": "7217730913",
+        "Hostel": "Girnar",
+        "Domain": "Outreach",
+        "Field": "Events",
+        "Position": "Executive",
+        "img":"../TeamsInfo/TeamPhotos/outreach-events/Kartikaya_Srivastava_EXE.jpg"
+    },
+    {
+        "Name": "Ayush garg",
+        "Entry Number": "2023ME10337",
+        "Email": "me1230337@iitd.ac.in",
+        "Mobile Number": "9625809668",
+        "Hostel": "Nilgiri",
+        "Domain": "Outreach",
+        "Field": "Events",
+        "Position": "Executive",
+        "img":"../TeamsInfo/TeamPhotos/outreach-events/Aayush Garg_Exe.jpg"
+    },
+    {
+        "Name": "Vivek prajapati",
+        "Entry Number": "2023TT10416",
+        "Email": "tt1230416@iitd.ac.in",
+        "Mobile Number": "7303669211",
+        "Hostel": "Kumaon",
+        "Domain": "Outreach",
+        "Field": "Events",
+        "Position": "Executive",
+        "img":"../TeamsInfo/TeamPhotos/outreach-events/Vivek_Exe.jpg"
+    },
+    {
+        "Name": "Isha",
+        "Entry Number": "2023CH10468",
+        "Email": "ch1230468@iitd.ac.in",
+        "Mobile Number": "6200210450",
+        "Hostel": "Kailash",
+        "Domain": "Outreach",
+        "Field": "Events",
+        "Position": "Executive",
+        "img":"../TeamsInfo/TeamPhotos/outreach-events/Isha_exe.jpg"
+    },
+    {
+        "Name": "Srishti Sahu",
+        "Entry Number": "2023CE11073",
+        "Email": "ce1231073@iitd.ac.in",
+        "Mobile Number": "6265605541",
+        "Hostel": "Kailash",
+        "Domain": "Outreach",
+        "Field": "Marketing",
+        "Position": "Executive",
+        "img":"../TeamsInfo/TeamPhotos/outreach-marketing/Srishti_Sahu.jpg"
+    },
+    {
+        "Name": "Hardik",
+        "Entry Number": "2023EE10661",
+        "Email": "ee1230661@iitd.ac.in",
+        "Mobile Number": "8799713332",
+        "Hostel": "Vindy",
+        "Domain": "Outreach",
+        "Field": "Marketing",
+        "Position": "Executive",
+        "img":"../TeamsInfo/TeamPhotos/outreach-marketing/Hardik_Agarwal_EXE.jpg"
+    },
+    {
+        "Name": "Nupur",
+        "Entry Number": "2023ME10627",
+        "Email": "me1230627@iitd.ac.in",
+        "Mobile Number": "9310833908",
+        "Hostel": "Kailash",
+        "Domain": "Outreach",
+        "Field": "Marketing",
+        "Position": "Executive",
+        "img":"../TeamsInfo/TeamPhotos/outreach-marketing/nupur_singhi.jpeg"
+    },
+    {
+        "Name": "Sarthak",
+        "Entry Number": "2023CH10850",
+        "Email": "ch1230850@iitd.ac.in",
+        "Mobile Number": "7303237442",
+        "Hostel": "Satpura",
+        "Domain": "Outreach",
+        "Field": "Marketing",
+        "Position": "Executive",
+        "img":"../TeamsInfo/TeamPhotos/outreach-marketing/Sarthak Maurya_EXE.jpg"
+    },
+    {
+        "Name": "Sumit Rahi",
+        "Entry Number": "2023BB10964",
+        "Email": "bb1230964@iitd.ac.in",
+        "Mobile Number": "9315095300",
+        "Hostel": "Shivalik",
+        "Domain": "Creative",
+        "Field": "Media",
+        "Position": "Executive",
+        "img":"../TeamsInfo/TeamPhotos/creative-design&media/Socrates_exe.jpg"
+    }
+
+
+
+
+
+
+]
