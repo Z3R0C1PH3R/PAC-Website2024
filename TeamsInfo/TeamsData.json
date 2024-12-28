@@ -22,39 +22,6 @@
         "img":"../TeamsInfo/TeamPhotos/Divyanshu_Bansal_OC.png"
     },
     {
-        "Name": "Aryan Choudhary",
-        "Entry Number": "2023ES10842",
-        "Email": "es1230842@iitd.ac.in",
-        "Mobile Number": "7371871087",
-        "Hostel": "Karakoram",
-        "Domain": "Creative",
-        "Field": "Technical",
-        "Position": "Coordinator",
-        "img":"../TeamsInfo/TeamPhotos/creative-tech/ARYAN_CHOUDHARY_COORDI.jpg"
-    },
-    {
-        "Name": "Nabyendu Mukherjee",
-        "Entry Number": "2023ESN2348",
-        "Email": "esn232348@iitd.ac.in",
-        "Mobile Number": "9609129231",
-        "Hostel": "Udaigiri",
-        "Domain": "Research",
-        "Field": "Experimental",
-        "Position": "Coordinator",
-        "img":"../TeamsInfo/TeamPhotos/research-rocketry/Nabyendu_Coordi.JPG"
-    },
-    {
-        "Name": "Saket Kumar Singh",
-        "Entry Number": "2022CH71478",
-        "Email": "ch7221478@iitd.ac.in",
-        "Mobile Number": "9629746002",
-        "Hostel": "Vindhyachal",
-        "Domain": "Outreach",
-        "Field": "Marketing",
-        "Position": "Coordinator",
-        "img":"../TeamsInfo/TeamPhotos/outreach-marketing/Saket_Kumar_Singh_Coordinator.jpeg"
-    },
-    {
         "Name": "Arkapal Mondal",
         "Entry Number": "2022PHZ8027",
         "Email": "phz228027@iitd.ac.in",
@@ -66,15 +33,15 @@
         "img":"../TeamsInfo/TeamPhotos/research-theoritical/Arkapal_coordi.webp"
     },
     {
-        "Name": "Sidharth Barman",
-        "Entry Number": "2022DD14765",
-        "Email": "dd1224765@iitd.ac.in",
-        "Mobile Number": "8708952632",
-        "Hostel": "Satpura",
-        "Domain": "Creative",
-        "Field": "Design",
+        "Name": "Nabyendu Mukherjee",
+        "Entry Number": "2023ESN2348",
+        "Email": "esn232348@iitd.ac.in",
+        "Mobile Number": "9609129231",
+        "Hostel": "Udaigiri",
+        "Domain": "Research",
+        "Field": "Rocketery",
         "Position": "Coordinator",
-        "img":"../TeamsInfo/TeamPhotos/creative-design&media/Sidharth.jpeg"
+        "img":"../TeamsInfo/TeamPhotos/research-rocketry/Nabyendu_Coordi.JPG"
     },
     {
         "Name": "Sakshi Padir",
@@ -99,15 +66,48 @@
         "img":"../TeamsInfo/TeamPhotos/creative-journo/aneeket_coordi.jpeg"
     },
     {
-        "Name": "Gaurav Verma",
-        "Entry Number": "2022AM11825",
-        "Email": "am1221825@iitd.ac.in",
-        "Mobile Number": "7988719774",
-        "Hostel": "Girnar",
+        "Name": "Sidharth Barman",
+        "Entry Number": "2022DD14765",
+        "Email": "dd1224765@iitd.ac.in",
+        "Mobile Number": "8708952632",
+        "Hostel": "Satpura",
+        "Domain": "Creative",
+        "Field": "Design",
+        "Position": "Coordinator",
+        "img":"../TeamsInfo/TeamPhotos/creative-design&media/Sidharth.jpeg"
+    },
+    {
+        "Name": "Saket Kumar Singh",
+        "Entry Number": "2022CH71478",
+        "Email": "ch7221478@iitd.ac.in",
+        "Mobile Number": "9629746002",
+        "Hostel": "Vindhyachal",
         "Domain": "Outreach",
-        "Field": "Outreach",
+        "Field": "Marketing",
+        "Position": "Coordinator",
+        "img":"../TeamsInfo/TeamPhotos/outreach-marketing/Saket_Kumar_Singh_Coordinator.jpeg"
+    },
+    {
+        "Name": "Aryan Choudhary",
+        "Entry Number": "2023ES10842",
+        "Email": "es1230842@iitd.ac.in",
+        "Mobile Number": "7371871087",
+        "Hostel": "Karakoram",
+        "Domain": "Creative",
+        "Field": "Technical",
+        "Position": "Coordinator",
+        "img":"../TeamsInfo/TeamPhotos/creative-tech/ARYAN_CHOUDHARY_COORDI.jpg"
+    },
+    {
+        "Name": "Nikhil Singh",
+        "Entry Number": "2023ESN2364",
+        "Email": "esn232364@iitd.ac.in",
+        "Mobile Number": "7080708121",
+        "Hostel": "Day Scholar",
+        "Domain": "Research",
+        "Field": "Research",
         "Position": "CTM",
-        "img":"../TeamsInfo/TeamPhotos/creative-design&media/Gaurav_Verma.jpeg"
+        "img":"../TeamsInfo/TeamPhotos/research-rocketry/Nikhil_Coordi.jpeg"
     },
     {
         "Name": "Rashmi Vijay",
@@ -121,17 +121,16 @@
         "img":"../TeamsInfo/TeamPhotos/creative-design&media/Rashmi_Coordi.jpeg"
     },
     {
-        "Name": "Nikhil Singh",
-        "Entry Number": "2023ESN2364",
-        "Email": "esn232364@iitd.ac.in",
-        "Mobile Number": "7080708121",
-        "Hostel": "Day Scholar",
-        "Domain": "Research",
-        "Field": "Research",
+        "Name": "Gaurav Verma",
+        "Entry Number": "2022AM11825",
+        "Email": "am1221825@iitd.ac.in",
+        "Mobile Number": "7988719774",
+        "Hostel": "Girnar",
+        "Domain": "Outreach",
+        "Field": "Outreach",
         "Position": "CTM",
-        "img":"../TeamsInfo/TeamPhotos/research-rocketry/Nikhil_Coordi.jpeg"
+        "img":"../TeamsInfo/TeamPhotos/creative-design&media/Gaurav_Verma.jpeg"
     },
-
     {
         "Name": "Akshat",
         "Entry Number": "2023MT60066",
