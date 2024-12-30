@@ -2,6 +2,7 @@ import teamdata from '../../TeamsInfo/TeamsData.json'
 import { motion, useInView } from 'framer-motion';
 import { Users, BookUser } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
+import { TeamBackground } from '../components/TeamBackground'
 
 // Custom hook to get number of cards per row based on container width
 function useCardsPerRow() {
@@ -111,43 +112,50 @@ function TeamSection({ title, positions }: { title: string, positions: string|st
 
 export function Teams() {
   return (
-    <div className="pt-24 pb-16 px-4">
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-16"
-        >
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <Users className="h-12 w-12 text-purple-400 mx-auto mb-4" />
-          </motion.div>
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-4xl font-bold mb-4"
-          >
-            Our Team
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="text-xl text-gray-400"
-          >
-            Meet the passionate individuals behind Physics and Astronomy Club
-          </motion.p>
-        </motion.div>
+    <div className="relative">
+      <TeamBackground />
+      <div className="relative z-10">
+        <div className="min-h-screen pt-24 pb-16 px-4">
+          <div className="max-w-7xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-center mb-16"
+            >
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <Users className="h-12 w-12 text-purple-400 mx-auto mb-4" />
+              </motion.div>
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="text-4xl font-bold mb-4"
+              >
+                Our Team
+              </motion.h1>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="text-xl text-gray-400"
+              >
+                Meet the passionate individuals behind Physics and Astronomy Club
+              </motion.p>
+            </motion.div>
 
-        <TeamSection positions={['Faculty Incharge', 'Overall Coordinator']} title="" />
-        <TeamSection positions="CTM" title="CTMs" />
-        <TeamSection positions="Coordinator" title="Coordinators" />
-        <TeamSection positions="Executive" title="Executives" />
+            <div className="space-y-16">
+              <TeamSection positions={['Faculty Incharge', 'Overall Coordinator']} title="" />
+              <TeamSection positions="CTM" title="CTMs" />
+              <TeamSection positions="Coordinator" title="Coordinators" />
+              <TeamSection positions="Executive" title="Executives" />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
