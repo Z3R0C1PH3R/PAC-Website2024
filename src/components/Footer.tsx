@@ -89,9 +89,9 @@ export function Footer() {
                 <div className="flex items-start space-x-3">
                   <MapPin className="h-5 w-5 text-purple-400 mt-1" />
                   <p className="text-gray-400 text-sm">
-                    Physics Department<br />
-                    IIT Delhi, Hauz Khas<br />
-                    New Delhi - 110016
+                    WS120, Physics and Astronomy<br />
+                    Club, Central Workshop, IIT Delhi,<br />
+                    Hauz Khas, Delhi, 110016
                   </p>
                 </div>
                 <div className="flex items-center space-x-3">
