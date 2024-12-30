@@ -1,22 +1,57 @@
-import { Canvas, useFrame, useLoader } from '@react-three/fiber';
+import { Canvas, useFrame, useLoader, extend } from '@react-three/fiber';
 import { useRef, useMemo, Suspense, useEffect } from 'react';
 import * as THREE from 'three';
 import { PerspectiveCamera } from '@react-three/drei';
 import { useScroll } from 'framer-motion'; // Add this import
 
+// Single haze shader
+const hazeVertexShader = `
+varying vec3 vNormal;
+varying vec2 vUv;
+void main() {
+    vNormal = normalize(normalMatrix * normal);
+    vUv = uv;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+}
+`;
+
+const hazeFragmentShader = `
+varying vec3 vNormal;
+varying vec2 vUv;
+uniform float time;
+
+void main() {
+    vec3 atmosphereColor = vec3(0.4, 0.6, 1.0);
+    float alpha = 0.15;
+    
+    gl_FragColor = vec4(atmosphereColor, alpha);
+}
+`;
+
 function Stars({ count = 5000 }) {
+    const starsRef = useRef<THREE.Points>(null);
+  const { scrollYProgress } = useScroll();
+
   const positions = useMemo(() => {
     const positions = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      positions[i * 3] = (Math.random() - 0.5) * 50;     // x
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 50; // y
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 50; // z
+      positions[i * 3] = (Math.random() - 0.5) * 50;     // Increased range
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 50; 
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 50;
     }
     return positions;
   }, [count]);
 
+  useFrame(() => {
+    if (starsRef.current) {
+      // Rotate stars based on scroll
+      const rotation = scrollYProgress.get() * Math.PI * 2;
+      starsRef.current.rotation.y = rotation * 0.5; // Slower rotation
+    }
+  });
+
   return (
-    <points>
+    <points ref={starsRef}>
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
@@ -77,9 +112,9 @@ function Earth() {
       const imageData = ctx?.getImageData(0, 0, canvas.width, canvas.height);
       if (imageData) {
         for (let i = 0; i < imageData.data.length; i += 4) {
-          imageData.data[i] = 255 - imageData.data[i];
-          imageData.data[i + 1] = 255 - imageData.data[i + 1];
-          imageData.data[i + 2] = 255 - imageData.data[i + 2];
+          for (let j = 0; j < 3; j++) {
+            imageData.data[i+j] = 128 + (255 - imageData.data[i+j])/2 ;
+          }
         }
         ctx?.putImageData(imageData, 0, 0);
         
@@ -111,7 +146,7 @@ function Earth() {
           normalMap={normalMap}
           normalScale={new THREE.Vector2(2, 2)}
           roughnessMap={specularMap}
-          roughness={0.8}
+          roughness={1}
           metalness={0.1}
           emissiveMap={nightMap}
           emissive={new THREE.Color(0xfcdb32)}
@@ -119,8 +154,23 @@ function Earth() {
         />
       </mesh>
 
+      {/* Simple atmosphere haze */}
+      <mesh scale={1.06}>
+        <sphereGeometry args={[1, 64, 64]} />
+        <shaderMaterial
+          vertexShader={hazeVertexShader}
+          fragmentShader={hazeFragmentShader}
+          transparent
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+          uniforms={{
+            time: { value: 0 }
+          }}
+        />
+      </mesh>
+
       {/* Cloud layer */}
-      <mesh ref={cloudsRef} scale={1.052}> {/* Slightly larger than Earth */}
+      <mesh ref={cloudsRef} scale={1.052}>
         <sphereGeometry args={[1, 128, 128]} />
         <meshStandardMaterial
           map={cloudsMap}
@@ -137,36 +187,45 @@ function Earth() {
 
 function Scene() {
   const lightRef = useRef<THREE.DirectionalLight>(null);
+  const camRef = useRef<THREE.PerspectiveCamera>(null);
   const { scrollYProgress } = useScroll();
 
   useFrame(() => {
     if (lightRef.current) {
-      // Calculate light position based on scroll
-      const angle = scrollYProgress.get() * Math.PI * 2; // Full rotation
-      const radius = 2; // Distance from center
+      const angle = scrollYProgress.get() * Math.PI * 2;
+      const radius = 5; // Increased radius for better lighting
       lightRef.current.position.x = Math.cos(angle) * radius;
       lightRef.current.position.z = Math.sin(angle) * radius;
-      
-      // Always point to the center
       lightRef.current.lookAt(0, 0, 0);
+    }
+    if (camRef.current) {
+      const angle = (scrollYProgress.get() + 0.2) * Math.PI/2;
+      const initialY = 1.5;
+      const initialZ = 2.5;
+      const radius = Math.sqrt(initialY**2 + initialZ**2);
+      // Increased radius for better lighting
+      camRef.current.position.y = Math.cos(angle) * radius;
+      camRef.current.position.z = Math.sin(angle) * radius;
+      camRef.current.lookAt(0, 0.1, 0);
     }
   });
 
   return (
     <>
       <PerspectiveCamera
+        ref={camRef}
         makeDefault
-        position={[0, 1.5, 1.5]}
-        rotation={[-0.7,0,0]}
-        fov={75}
+        position={[0, 1.5, 2.5]} // Centered and moved back
+        rotation={[-0.5, 0, 0]} // Reset rotation
+        fov={50} // Narrower FOV for better view
         near={0.1}
         far={1000}
       />
-      <Stars count={6000} />
-      <ambientLight intensity={0.1} /> {/* Increased ambient light */}
+      <Stars count={3000} />
+      {/* <ambientLight intensity={0.1} /> */}
       <directionalLight 
         ref={lightRef}
-        position={[2, 0, 0]} 
+        position={[5, 0, 0]} 
         intensity={10}
         castShadow
       />
