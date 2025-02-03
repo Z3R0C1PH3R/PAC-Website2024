@@ -1,4 +1,4 @@
-import teamdata from '../../TeamsInfo/TeamsData.json'
+import teamdata from '../../TeamsData.json'
 import { motion, useInView } from 'framer-motion';
 import { Users, BookUser } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
