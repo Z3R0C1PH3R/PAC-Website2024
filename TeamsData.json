@@ -2,7 +2,7 @@
     {
         "Name": "Suprit Singh",
         "Entry Number": "",
-        "Email": "suprit@pysics.iitd.ac.in",
+        "Email": "suprit@iitd.ac.in",
         "Mobile Number": "",
         "Hostel": "",
         "Domain": "",
@@ -20,6 +20,50 @@
         "Field": "",
         "Position": "Overall Coordinator",
         "img": "/team-photos/Divyanshu_Bansal_OC.png"
+    },
+        {
+        "Name": "Adhya Makkar",
+        "Entry Number": "2021CH70028",
+        "Email": "ch7210028@iitd.ac.in",
+        "Mobile Number": "",
+        "Hostel": "",
+        "Domain": "",
+        "Field": "",
+        "Position": "Panel Member",
+        "img": "/team-photos/Adhya_Makkar_PANEL.jpg"
+    },
+        {
+        "Name": "Akshya",
+        "Entry Number": "2021ch10391",
+        "Email": "ch1210391@iitd.ac.in",
+        "Mobile Number": "",
+        "Hostel": "",
+        "Domain": "",
+        "Field": "",
+        "Position": "Panel Member",
+        "img": "/team-photos/Akshya_PANEL.jpg"
+    },
+        {
+        "Name": "Anish Banerjee",
+        "Entry Number": "2021CS10134",
+        "Email": "cs1210134@iitd.ac.in",
+        "Mobile Number": "",
+        "Hostel": "",
+        "Domain": "",
+        "Field": "",
+        "Position": "Panel Member",
+        "img": "/team-photos/Anish_Banerjee_PANEL.jpg"
+    },
+        {
+        "Name": "Satwik Mittal",
+        "Entry Number": "2021PH10213",
+        "Email": "ph1210213@iitd.ac.in",
+        "Mobile Number": "",
+        "Hostel": "",
+        "Domain": "",
+        "Field": "",
+        "Position": "Panel Member",
+        "img": "/team-photos/Satwik_Mittal_PANEL.jpg"
     },
     {
         "Name": "Arkapal Mondal",
