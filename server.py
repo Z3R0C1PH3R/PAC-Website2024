@@ -178,8 +178,6 @@ def upload_pac_event():
         event_number = request.form.get('event_number')
         title = request.form.get('title')
         event_date = request.form.get('event_date', '')
-        heading = request.form.get('heading', '')
-        body = request.form.get('body', '')
         image_gallery_album_id = request.form.get('image_gallery_album_id', '')
         
         # Handle cover image
@@ -204,6 +202,36 @@ def upload_pac_event():
         else:
             return jsonify({'error': 'No cover image provided'}), 400
 
+        # Process sections
+        sections = []
+        section_index = 0
+        
+        while f'section_{section_index}_heading' in request.form:
+            section_data = {
+                'heading': request.form.get(f'section_{section_index}_heading'),
+                'body': request.form.get(f'section_{section_index}_body'),
+                'image': None
+            }
+
+            # Check for new section image
+            if f'section_{section_index}_image' in request.files:
+                section_image = request.files[f'section_{section_index}_image']
+                if section_image and section_image.filename:
+                    if allowed_file(section_image.filename):
+                        section_filename = secure_filename(f"event_{event_number}_section_{section_index}_{section_image.filename}")
+                        section_image_path = os.path.join(PAC_EVENTS_UPLOAD_FOLDER, section_filename)
+                        section_image.save(section_image_path)
+                        section_data['image'] = f"/static/pac_events/{section_filename}"
+
+            # Handle existing section image in edit mode
+            elif is_edit and f'section_{section_index}_existing_image' in request.form:
+                existing_image = request.form.get(f'section_{section_index}_existing_image')
+                if existing_image:
+                    section_data['image'] = existing_image
+
+            sections.append(section_data)
+            section_index += 1
+
         # Update directory.json
         event_data = {
             'event_number': event_number,
@@ -211,9 +239,8 @@ def upload_pac_event():
             'event_date': event_date,
             'upload_date': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             'cover_image': cover_image_path,
-            'heading': heading,
-            'body': body,
-            'image_gallery_album_id': image_gallery_album_id
+            'image_gallery_album_id': image_gallery_album_id,
+            'sections': sections
         }
 
         # Handle old files cleanup in edit mode
@@ -223,6 +250,19 @@ def upload_pac_event():
                 old_file_path = os.path.join(app.root_path, old_cover_image.lstrip('/'))
                 if os.path.exists(old_file_path):
                     os.remove(old_file_path)
+
+            # Get old event data to compare section images
+            with open(PAC_EVENTS_DIR_FILE, 'r') as f:
+                directory = json.load(f)
+                old_event = next((event for event in directory['events'] 
+                                if event['event_number'] == event_number), None)
+                if old_event and 'sections' in old_event:
+                    for old_section in old_event.get('sections', []):
+                        old_image = old_section.get('image')
+                        if old_image and old_image not in [s.get('image') for s in sections]:
+                            old_file_path = os.path.join(app.root_path, old_image.lstrip('/'))
+                            if os.path.exists(old_file_path):
+                                os.remove(old_file_path)
 
         update_directory(PAC_EVENTS_DIR_FILE, 'events', event_data, 'event_number')
 
@@ -314,6 +354,13 @@ def delete_pac_event(event_number):
                     cover_path = os.path.join(app.root_path, event['cover_image'].lstrip('/'))
                     if os.path.exists(cover_path):
                         os.remove(cover_path)
+                
+                # Delete section images
+                for section in event.get('sections', []):
+                    if section.get('image'):
+                        section_path = os.path.join(app.root_path, section['image'].lstrip('/'))
+                        if os.path.exists(section_path):
+                            os.remove(section_path)
                 
                 # Remove from directory
                 directory['events'].pop(i)

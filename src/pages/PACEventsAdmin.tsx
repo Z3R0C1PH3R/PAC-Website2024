@@ -8,6 +8,19 @@ import { ImagePreview } from '../components/ImagePreview';
 const backend_url = import.meta.env.VITE_BACKEND_URL;
 
 export default function PACEventsAdmin() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const isAuthenticated = localStorage.getItem('isAuthenticated');
+    if (!isAuthenticated) {
+      navigate('/admin');
+    }
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('isAuthenticated');
+    navigate('/admin');
+  };
+
   const [showNewEventForm, setShowNewEventForm] = useState(false);
   const [existingEvents, setExistingEvents] = useState([]);
   const [eventNumber, setEventNumber] = useState('');
@@ -17,19 +30,24 @@ export default function PACEventsAdmin() {
     return today.toISOString().split('T')[0];
   });
   const [coverImage, setCoverImage] = useState<File | null>(null);
-  const [heading, setHeading] = useState('');
-  const [body, setBody] = useState('');
-  const [imageGalleryAlbumId, setImageGalleryAlbumId] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [editingEvent, setEditingEvent] = useState(null);
   const [coverQuality, setCoverQuality] = useState(80);
   const [originalCoverImage, setOriginalCoverImage] = useState<File | null>(null);
 
-  const navigate = useNavigate();
+  const [numSections, setNumSections] = useState(1);
+  const [sections, setSections] = useState([{ image: null, heading: '', body: '' }]);
+  const [sectionQualities, setSectionQualities] = useState<number[]>([]);
+  const [originalSectionImages, setOriginalSectionImages] = useState<(File | null)[]>([]);
+  const [existingSectionImages, setExistingSectionImages] = useState<string[]>([]);
 
   useEffect(() => {
     fetchExistingEvents();
   }, []);
+
+  useEffect(() => {
+    setSectionQualities(new Array(numSections).fill(80));
+  }, [numSections]);
 
   const fetchExistingEvents = async () => {
     try {
@@ -58,6 +76,46 @@ export default function PACEventsAdmin() {
     }
   };
 
+  const handleSectionImageSelect = async (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      const newOriginalImages = [...originalSectionImages];
+      newOriginalImages[index] = file;
+      setOriginalSectionImages(newOriginalImages);
+      
+      const compressed = await compressImage(file, sectionQualities[index]);
+      handleSectionChange(index, 'image', compressed);
+    }
+  };
+
+  const handleSectionQualityChange = async (index: number, quality: number) => {
+    const newQualities = [...sectionQualities];
+    newQualities[index] = quality;
+    setSectionQualities(newQualities);
+
+    if (originalSectionImages[index]) {
+      const compressed = await compressImage(originalSectionImages[index]!, quality);
+      handleSectionChange(index, 'image', compressed);
+    }
+  };
+
+  const handleSectionChange = (index: number, field: string, value: any) => {
+    const newSections = [...sections];
+    newSections[index] = { ...newSections[index], [field]: value };
+    setSections(newSections);
+  };
+
+  const updateSectionCount = (count: number) => {
+    const newCount = Math.max(1, count);
+    setNumSections(newCount);
+    setSections(current => {
+      if (newCount > current.length) {
+        return [...current, ...Array(newCount - current.length).fill({ image: null, heading: '', body: '' })];
+      }
+      return current.slice(0, newCount);
+    });
+  };
+
   const handleViewEvent = (eventNumber: string) => {
     window.open(`/pac-events/${eventNumber}`, '_blank');
   };
@@ -84,12 +142,18 @@ export default function PACEventsAdmin() {
     setEventNumber(event.event_number);
     setTitle(event.title);
     setEventDate(event.event_date);
-    setHeading(event.heading || '');
-    setBody(event.body || '');
-    setImageGalleryAlbumId(event.image_gallery_album_id || '');
     
     setEditingEvent(event);
     setShowNewEventForm(true);
+
+    setNumSections(event.sections?.length || 1);
+    setExistingSectionImages(event.sections?.map((section: any) => section.image || '') || []);
+    setSections(event.sections?.map((section: any) => ({
+      image: null,
+      heading: section.heading || '',
+      body: section.body || '',
+      existingImage: section.image
+    })) || [{ image: null, heading: '', body: '' }]);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -119,19 +183,17 @@ export default function PACEventsAdmin() {
         // Send the old cover image path for reference
         formData.append('old_cover_image', editingEvent.cover_image);
       }
-      
-      // Optional fields
-      if (heading) {
-        formData.append('heading', heading);
-      }
-      
-      if (body) {
-        formData.append('body', body);
-      }
-      
-      if (imageGalleryAlbumId) {
-        formData.append('image_gallery_album_id', imageGalleryAlbumId);
-      }
+
+      // Add sections to form data
+      sections.forEach((section, index) => {
+        if (section.image) {
+          formData.append(`section_${index}_image`, section.image);
+        } else if (editingEvent) {
+          formData.append(`section_${index}_existing_image`, existingSectionImages[index] || '');
+        }
+        formData.append(`section_${index}_heading`, section.heading);
+        formData.append(`section_${index}_body`, section.body);
+      });
 
       const response = await fetch(backend_url + '/upload_pac_event', {
         method: 'POST',
@@ -152,9 +214,6 @@ export default function PACEventsAdmin() {
       setCoverImage(null);
       setEventNumber('');
       setTitle('');
-      setHeading('');
-      setBody('');
-      setImageGalleryAlbumId('');
       setEventDate(() => {
         const today = new Date();
         return today.toISOString().split('T')[0];
@@ -349,36 +408,81 @@ export default function PACEventsAdmin() {
                 </div>
 
                 <div className="mb-6">
-                  <label className="block text-sm font-medium mb-2">Heading (Optional)</label>
+                  <label className="block text-sm font-medium mb-2">Number of Sections</label>
                   <input
-                    type="text"
-                    value={heading}
-                    onChange={(e) => setHeading(e.target.value)}
+                    type="number"
+                    min="1"
+                    value={numSections}
+                    onChange={(e) => updateSectionCount(parseInt(e.target.value))}
                     className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2"
                   />
                 </div>
 
-                <div className="mb-6">
-                  <label className="block text-sm font-medium mb-2">Body (Optional)</label>
-                  <textarea
-                    value={body}
-                    onChange={(e) => setBody(e.target.value)}
-                    className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2 min-h-[100px]"
-                  />
-                </div>
+                {sections.map((section, index) => (
+                  <div key={index} className="mb-8 p-4 border border-slate-600 rounded-lg">
+                    <h3 className="text-lg font-medium mb-4">Section {index + 1}</h3>
+                    
+                    <div className="mb-4">
+                      <label className="block text-sm font-medium mb-2">Section Image (Optional)</label>
+                      <div className="space-y-4">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => handleSectionImageSelect(index, e)}
+                          className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2"
+                        />
+                        <div className="flex flex-col gap-2">
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm text-gray-400 w-16">Low (1%)</span>
+                            <input
+                              type="range"
+                              min="1"
+                              max="100"
+                              value={sectionQualities[index] || 80}
+                              onChange={(e) => handleSectionQualityChange(index, Number(e.target.value))}
+                              className="w-full"
+                            />
+                            <span className="text-sm text-gray-400 w-20">High (100%)</span>
+                          </div>
+                          <span className="text-sm text-purple-400">Current Quality: {sectionQualities[index] || 80}%</span>
+                        </div>
+                        {/* Preview current or new image */}
+                        {sections[index].image ? (
+                          <div className="mt-4">
+                            <p className="text-sm font-medium mb-2">Preview:</p>
+                            <ImagePreview file={sections[index].image} className="max-h-48 max-w-full" />
+                          </div>
+                        ) : (
+                          editingEvent && existingSectionImages[index] && (
+                            <div className="mt-4">
+                              <p className="text-sm font-medium mb-2">Current Image:</p>
+                              <ImagePreview url={`${backend_url}${existingSectionImages[index]}`} className="max-h-48 max-w-full" />
+                            </div>
+                          )
+                        )}
+                      </div>
+                    </div>
 
-                <div className="mb-6">
-                  <label className="block text-sm font-medium mb-2">Image Gallery Album ID (Optional)</label>
-                  <input
-                    type="text"
-                    value={imageGalleryAlbumId}
-                    onChange={(e) => setImageGalleryAlbumId(e.target.value)}
-                    className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2"
-                    placeholder="Enter Album ID from Image Gallery"
-                  />
-                </div>
+                    <div className="mb-4">
+                      <label className="block text-sm font-medium mb-2">Section Heading</label>
+                      <input
+                        type="text"
+                        value={section.heading}
+                        onChange={(e) => handleSectionChange(index, 'heading', e.target.value)}
+                        className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2"
+                      />
+                    </div>
 
-                /
+                    <div className="mb-4">
+                      <label className="block text-sm font-medium mb-2">Section Body</label>
+                      <textarea
+                        value={section.body}
+                        onChange={(e) => handleSectionChange(index, 'body', e.target.value)}
+                        className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2 min-h-[100px]"
+                      />
+                    </div>
+                  </div>
+                ))}
 
                 <button
                   type="submit"

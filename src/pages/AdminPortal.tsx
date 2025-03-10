@@ -7,7 +7,10 @@ const backend_url = import.meta.env.VITE_BACKEND_URL;
 
 export function AdminPortal() {
   const [password, setPassword] = useState('');
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    // Check localStorage when component mounts
+    return localStorage.getItem('isAuthenticated') === 'true';
+  });
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -21,6 +24,7 @@ export function AdminPortal() {
       });
 
       if (response.status === 202) {
+        localStorage.setItem('isAuthenticated', 'true');
         setIsAuthenticated(true);
       } else if (response.status === 401) {
         alert('Invalid password');
@@ -28,6 +32,11 @@ export function AdminPortal() {
     } catch (error) {
       alert('Error logging in, issue: ' + (error as Error).message);
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('isAuthenticated');
+    setIsAuthenticated(false);
   };
 
   if (!isAuthenticated) {
@@ -76,11 +85,19 @@ export function AdminPortal() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <h1 className="text-4xl font-bold mb-8">Admin Portal</h1>
+          <div className="flex justify-between items-center mb-8">
+            <h1 className="text-4xl font-bold">Admin Portal</h1>
+            <button
+              onClick={handleLogout}
+              className="text-red-400 hover:text-red-300"
+            >
+              Logout
+            </button>
+          </div>
           
           <div className="grid grid-cols-3 gap-4 max-w-2xl mx-auto">
             <button 
-              className="bg-slate-700 hover:bg-slate-600 text-white py-4 px-6 rounded-lg transition-colors"
+              className="bg-purple-600 hover:bg-purple-700 text-white py-4 px-6 rounded-lg transition-colors"
               onClick={()=> navigate('/admin/pac-events')}
             >
               Events

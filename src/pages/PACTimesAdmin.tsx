@@ -8,6 +8,19 @@ import { ImagePreview } from '../components/ImagePreview';
 const backend_url = import.meta.env.VITE_BACKEND_URL;
 
 export function PACTimesAdmin() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const isAuthenticated = localStorage.getItem('isAuthenticated');
+    if (!isAuthenticated) {
+      navigate('/admin');
+    }
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('isAuthenticated');
+    navigate('/admin');
+  };
+
   const [showNewIssueForm, setShowNewIssueForm] = useState(false);
   const [existingIssues, setExistingIssues] = useState([]);
   const [issueNumber, setIssueNumber] = useState('');
@@ -26,7 +39,6 @@ export function PACTimesAdmin() {
   const [originalCoverImage, setOriginalCoverImage] = useState<File | null>(null);
   const [originalSectionImages, setOriginalSectionImages] = useState<(File | null)[]>([]);
   const [existingSectionImages, setExistingSectionImages] = useState<string[]>([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetchExistingIssues();

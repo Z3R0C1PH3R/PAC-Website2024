@@ -11,15 +11,29 @@ export function PACEventsPage() {
   const [error, setError] = useState<string | null>(null);
 
   // Define TypeScript interfaces for better type safety
+  interface Section {
+    image?: string;
+    heading: string;
+    body: string;
+    image_gallery_album_id?: string; // Move this to section level if needed
+  }
+
   interface Event {
     event_number: string;
     title: string;
     event_date: string;
     cover_image: string;
-    heading?: string;
-    body?: string;
-    image_gallery_album_id?: string;
+    sections: Section[];
   }
+
+  // Helper to convert URLs in text to hyperlinks
+  const linkify = (text: string) => {
+    return text.split(/(https?:\/\/[^\s]+)/g).map((part, i) =>
+      part.match(/^https?:\/\//)
+        ? <a key={i} href={part} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline">{part}</a>
+        : part
+    );
+  };
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -86,30 +100,55 @@ export function PACEventsPage() {
 
           {/* Content section */}
           <div className="max-w-4xl mx-auto">
-            <h1 className="text-4xl font-bold mb-4 text-gray-100">{event.title}</h1>
+            <h1 className="text-4xl font-bold mb-4">{event.title}</h1>
             <p className="text-purple-400 mb-12">
               Event #{event.event_number} - {event.event_date}
             </p>
 
-            {/* Optional heading and body section */}
-            {(event.heading || event.body) && (
+            {/* Handle legacy events that don't have sections */}
+            {event.sections ? (
+              // Sections exist, render them
+              event.sections.map((section, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="mb-16"
+                >
+                  {section.image && (
+                    <div className="mb-6 flex justify-start">
+                      <img
+                        src={`${backend_url}${section.image}`}
+                        alt={section.heading}
+                        className="max-h-[500px] object-contain rounded-lg"
+                      />
+                    </div>
+                  )}
+                  {section.heading && (
+                    <h2 className="text-2xl font-semibold mb-4">{section.heading}</h2>
+                  )}
+                  {section.body && (
+                    <p className="text-gray-300 whitespace-pre-wrap">
+                      {linkify(section.body)}
+                    </p>
+                  )}
+                </motion.div>
+              ))
+            ) : (
+              // Legacy event format - render heading/body from top level
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ 
-                  delay: 0.1,
-                  duration: 0.5
-                }}
+                transition={{ delay: 0.1 }}
                 className="mb-16"
               >
                 {event.heading && (
-                  <h2 className="text-2xl font-semibold mb-4 text-gray-50">
-                    {event.heading}
-                  </h2>
+                  <h2 className="text-2xl font-semibold mb-4">{event.heading}</h2>
                 )}
                 {event.body && (
-                  <p className="text-gray-300 whitespace-pre-wrap leading-relaxed">
-                    {event.body}
+                  <p className="text-gray-300 whitespace-pre-wrap">
+                    {linkify(event.body)}
                   </p>
                 )}
               </motion.div>
