@@ -79,7 +79,10 @@ export function AdminPortal() {
           <h1 className="text-4xl font-bold mb-8">Admin Portal</h1>
           
           <div className="grid grid-cols-3 gap-4 max-w-2xl mx-auto">
-            <button className="bg-slate-700 hover:bg-slate-600 text-white py-4 px-6 rounded-lg transition-colors">
+            <button 
+              className="bg-slate-700 hover:bg-slate-600 text-white py-4 px-6 rounded-lg transition-colors"
+              onClick={()=> navigate('/admin/pac-events')}
+            >
               Events
             </button>
             <button className="bg-slate-700 hover:bg-slate-600 text-white py-4 px-6 rounded-lg transition-colors">
