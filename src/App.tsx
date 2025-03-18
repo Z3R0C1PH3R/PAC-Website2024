@@ -10,7 +10,9 @@ import PACEventsAdmin from './pages/PACEventsAdmin.js';
 import {Teams} from './pages/Teams.js';
 import { PACEvents } from './pages/PACEvents.js';
 import { PACEventsPage } from './pages/PACEventsPage.js';
-
+import { PACReadingCircle } from './pages/PACReadingCircle';
+import { PACReadingCirclePage } from './pages/PACReadingCirclePage';
+import PACReadingCircleAdmin from './pages/PACReadingCircleAdmin';
 
 function App() {
   return (
@@ -28,6 +30,9 @@ function App() {
             <Route path="/admin/pac-times" element={<PACTimesAdmin />} />
             <Route path="/admin/pac-events" element={<PACEventsAdmin/>} />
             <Route path="/teams" element={<Teams />} />
+            <Route path="/reading-circle" element={<PACReadingCircle />} />
+            <Route path="/reading-circle/:eventNumber" element={<PACReadingCirclePage />} />
+            <Route path="/admin/reading-circle" element={<PACReadingCircleAdmin />} />
           </Routes>
         </main>
         <Footer />

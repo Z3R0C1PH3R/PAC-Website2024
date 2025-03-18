@@ -111,6 +111,12 @@ export function AdminPortal() {
             >
               PAC Times
             </button>
+            <button 
+              className="bg-purple-600 hover:bg-purple-700 text-white py-4 px-6 rounded-lg transition-colors"
+              onClick={() => navigate('/admin/reading-circle')}
+            >
+              Reading Circle
+            </button>
           </div>
         </motion.div>
       </div>
