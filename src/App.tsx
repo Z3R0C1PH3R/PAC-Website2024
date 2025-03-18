@@ -13,6 +13,9 @@ import { PACEventsPage } from './pages/PACEventsPage.js';
 import { PACReadingCircle } from './pages/PACReadingCircle';
 import { PACReadingCirclePage } from './pages/PACReadingCirclePage';
 import PACReadingCircleAdmin from './pages/PACReadingCircleAdmin';
+import { PhotoGallery } from './pages/PhotoGallery';
+import { PhotoGalleryAlbum } from './pages/PhotoGalleryAlbum';
+import { PhotoGalleryAdmin } from './pages/PhotoGalleryAdmin';
 
 function App() {
   return (
@@ -33,6 +36,9 @@ function App() {
             <Route path="/reading-circle" element={<PACReadingCircle />} />
             <Route path="/reading-circle/:eventNumber" element={<PACReadingCirclePage />} />
             <Route path="/admin/reading-circle" element={<PACReadingCircleAdmin />} />
+            <Route path="/gallery" element={<PhotoGallery />} />
+            <Route path="/gallery/:albumNumber" element={<PhotoGalleryAlbum />} />
+            <Route path="/admin/gallery" element={<PhotoGalleryAdmin />} />
           </Routes>
         </main>
         <Footer />

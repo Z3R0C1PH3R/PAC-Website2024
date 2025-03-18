@@ -13,6 +13,7 @@ export function Navbar() {
     { name: 'Events', path: '/pac-events' },
     { name: 'PAC Times', path: '/pac-times' },
     { name: 'Reading Circle', path: '/reading-circle' },
+    { name: 'Gallery', path: '/gallery' },  // Add this line
     { name: 'Team', path: '/teams' },
     
     // { name: 'Admin', path: '/admin' }

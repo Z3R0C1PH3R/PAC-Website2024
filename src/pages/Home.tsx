@@ -9,19 +9,34 @@ const backend_url = import.meta.env.VITE_BACKEND_URL;
 
 export function Home() {
   const [recentEvents, setRecentEvents] = useState([]);
+  const [recentReadingCircles, setRecentReadingCircles] = useState([]);
+  const [recentPACTimes, setRecentPACTimes] = useState([]);
+  const [recentAlbums, setRecentAlbums] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchRecentEvents = async () => {
+    const fetchAllData = async () => {
       try {
-        const response = await fetch(`${backend_url}/get_pac_events?limit=3`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch events');
-        }
-        const data = await response.json();
-        setRecentEvents(data.events);
+        const [eventsRes, readingRes, timesRes, albumsRes] = await Promise.all([
+          fetch(`${backend_url}/get_pac_events?limit=3`),
+          fetch(`${backend_url}/get_reading_circle?limit=3`),
+          fetch(`${backend_url}/get_pac_times?limit=3`),
+          fetch(`${backend_url}/get_photo_albums?limit=3`)
+        ]);
+
+        const [eventsData, readingData, timesData, albumsData] = await Promise.all([
+          eventsRes.json(),
+          readingRes.json(),
+          timesRes.json(),
+          albumsRes.json()
+        ]);
+
+        setRecentEvents(eventsData.events);
+        setRecentReadingCircles(readingData.events);
+        setRecentPACTimes(timesData.issues);
+        setRecentAlbums(albumsData.albums);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -29,7 +44,7 @@ export function Home() {
       }
     };
 
-    fetchRecentEvents();
+    fetchAllData();
   }, []);
 
   const handleViewEvent = (eventNumber) => {
@@ -38,6 +53,10 @@ export function Home() {
 
   const navigateToAllEvents = () => {
     navigate('/pac-events');
+  };
+
+  const navigateToSection = (path) => {
+    navigate(path);
   };
 
   return (
@@ -148,12 +167,12 @@ export function Home() {
           </div>
         </section>
 
-        {/* Recent Events Section */}
+        {/* Content Sections */}
         <section className="py-20 px-4">
-          <div className="max-w-7xl mx-auto">
+          <div className="max-w-7xl mx-auto space-y-20">
+            {/* Recent Events Panel */}
             <div className="bg-black/30 backdrop-blur-[2px] p-8 rounded-2xl">
               <h2 className="text-3xl font-bold text-center mb-16">Recent Events</h2>
-              
               {loading ? (
                 <div className="flex items-center justify-center py-12">
                   <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
@@ -199,6 +218,150 @@ export function Home() {
                       className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg transition-colors"
                     >
                       View All Events
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* Reading Circle Panel */}
+            <div className="bg-black/30 backdrop-blur-[2px] p-8 rounded-2xl">
+              <h2 className="text-3xl font-bold text-center mb-16">Reading Circle</h2>
+              {loading ? (
+                <div className="flex items-center justify-center py-12">
+                  <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+                </div>
+              ) : (
+                <>
+                  <div className="grid md:grid-cols-3 gap-8">
+                    {recentReadingCircles.map((event, index) => (
+                      <motion.div
+                        key={event.event_number}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        className="bg-slate-900/40 hover:bg-slate-800/50 transition-colors rounded-lg overflow-hidden"
+                      >
+                        <img
+                          src={`${backend_url}${event.cover_image}`}
+                          alt={event.title}
+                          className="w-full h-48 object-cover"
+                        />
+                        <div className="p-6">
+                          <div className="text-sm text-purple-400 mb-2">{event.event_date}</div>
+                          <h3 className="text-xl font-semibold mb-2">{event.title}</h3>
+                          <button 
+                            onClick={() => navigateToSection(`/reading-circle/${event.event_number}`)}
+                            className="mt-4 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors"
+                          >
+                            View Details
+                          </button>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                  <div className="mt-10 text-center">
+                    <button 
+                      onClick={() => navigateToSection('/reading-circle')}
+                      className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg transition-colors"
+                    >
+                      View All Reading Circles
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* PAC Times Panel */}
+            <div className="bg-black/30 backdrop-blur-[2px] p-8 rounded-2xl">
+              <h2 className="text-3xl font-bold text-center mb-16">PAC Times</h2>
+              {loading ? (
+                <div className="flex items-center justify-center py-12">
+                  <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+                </div>
+              ) : (
+                <>
+                  <div className="grid md:grid-cols-3 gap-8">
+                    {recentPACTimes.map((issue, index) => (
+                      <motion.div
+                        key={issue.issue_number}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        className="bg-slate-900/40 hover:bg-slate-800/50 transition-colors rounded-lg overflow-hidden"
+                      >
+                        <img
+                          src={`${backend_url}${issue.cover_image}`}
+                          alt={issue.title}
+                          className="w-full h-48 object-cover"
+                        />
+                        <div className="p-6">
+                          <div className="text-sm text-purple-400 mb-2">{issue.issue_date}</div>
+                          <h3 className="text-xl font-semibold mb-2">{issue.title}</h3>
+                          <button 
+                            onClick={() => navigateToSection(`/pac-times/${issue.issue_number}`)}
+                            className="mt-4 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors"
+                          >
+                            View Details
+                          </button>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                  <div className="mt-10 text-center">
+                    <button 
+                      onClick={() => navigateToSection('/pac-times')}
+                      className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg transition-colors"
+                    >
+                      View All PAC Times
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* Photo Albums Panel */}
+            <div className="bg-black/30 backdrop-blur-[2px] p-8 rounded-2xl">
+              <h2 className="text-3xl font-bold text-center mb-16">Photo Gallery</h2>
+              {loading ? (
+                <div className="flex items-center justify-center py-12">
+                  <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+                </div>
+              ) : (
+                <>
+                  <div className="grid md:grid-cols-3 gap-8">
+                    {recentAlbums.map((album, index) => (
+                      <motion.div
+                        key={album.album_number}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        className="bg-slate-900/40 hover:bg-slate-800/50 transition-colors rounded-lg overflow-hidden"
+                      >
+                        <img
+                          src={`${backend_url}${album.cover_image}`}
+                          alt={album.title}
+                          className="w-full h-48 object-cover"
+                        />
+                        <div className="p-6">
+                          <div className="text-sm text-purple-400 mb-2">{album.album_date}</div>
+                          <h3 className="text-xl font-semibold mb-2">{album.title}</h3>
+                          <button 
+                            onClick={() => navigateToSection(`/photo-gallery/${album.album_number}`)}
+                            className="mt-4 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors"
+                          >
+                            View Details
+                          </button>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                  <div className="mt-10 text-center">
+                    <button 
+                      onClick={() => navigateToSection('/photo-gallery')}
+                      className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg transition-colors"
+                    >
+                      View All Albums
                     </button>
                   </div>
                 </>

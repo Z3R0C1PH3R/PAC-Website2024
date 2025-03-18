@@ -102,7 +102,10 @@ export function AdminPortal() {
             >
               Events
             </button>
-            <button className="bg-slate-700 hover:bg-slate-600 text-white py-4 px-6 rounded-lg transition-colors">
+            <button 
+              className="bg-purple-600 hover:bg-purple-700 text-white py-4 px-6 rounded-lg transition-colors"
+              onClick={() => navigate('/admin/gallery')}
+            >
               Photo Gallery
             </button>
             <button 

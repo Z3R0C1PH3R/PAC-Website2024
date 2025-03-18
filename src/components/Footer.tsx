@@ -11,16 +11,16 @@ export function Footer() {
       title: 'Quick Links',
       links: [
         { name: 'PAC Times', path: '/pac-times' },
-        { name: 'Our Team', path: '#team' },
+        { name: 'Our Team', path: '/teams' },
         { name: 'Admin', path: '/admin' },
       ]
     },
     {
       title: 'Resources',
       links: [
-        { name: 'Research Papers', path: '#research' },
-        { name: 'Photo Gallery', path: '#gallery' },
-        { name: 'Blog', path: '#blog' },
+        { name: 'Reading Circle', path: '/reading-circle' },
+        { name: 'Photo Gallery', path: '/gallery' },
+        { name: 'Events', path: '/pac-events' },
       ]
     }
   ];

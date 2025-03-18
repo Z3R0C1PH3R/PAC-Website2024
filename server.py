@@ -284,6 +284,16 @@ def get_pac_times():
     try:
         with open(PAC_TIMES_DIR_FILE, 'r') as f:
             directory = json.load(f)
+        
+        # Handle limit parameter
+        limit = request.args.get('limit', type=int)
+        if limit:
+            directory['issues'] = sorted(
+                directory['issues'], 
+                key=lambda x: int(x['issue_number']), 
+                reverse=True
+            )[:limit]
+            
         return jsonify(directory), 200
     except Exception as e:
         return jsonify({'error': f'Error retrieving issues: {str(e)}'}), 500
@@ -293,6 +303,16 @@ def get_pac_events():
     try:
         with open(PAC_EVENTS_DIR_FILE, 'r') as f:
             directory = json.load(f)
+            
+        # Handle limit parameter
+        limit = request.args.get('limit', type=int)
+        if limit:
+            directory['events'] = sorted(
+                directory['events'], 
+                key=lambda x: int(x['event_number']), 
+                reverse=True
+            )[:limit]
+            
         return jsonify(directory), 200
     except Exception as e:
         return jsonify({'error': f'Error retrieving events: {str(e)}'}), 500
@@ -499,6 +519,16 @@ def get_reading_circle():
     try:
         with open(READING_CIRCLE_DIR_FILE, 'r') as f:
             directory = json.load(f)
+            
+        # Handle limit parameter
+        limit = request.args.get('limit', type=int)
+        if limit:
+            directory['events'] = sorted(
+                directory['events'], 
+                key=lambda x: int(x['event_number']), 
+                reverse=True
+            )[:limit]
+            
         return jsonify(directory), 200
     except Exception as e:
         return jsonify({'error': f'Error retrieving events: {str(e)}'}), 500
@@ -537,6 +567,126 @@ def delete_reading_circle(event_number):
     except Exception as e:
         app.logger.error(f"Delete error: {str(e)}")
         return jsonify({'error': f'Error deleting event: {str(e)}'}), 500
+
+# Add Photo Gallery configuration
+PHOTO_GALLERY_UPLOAD_FOLDER = 'static/photo_gallery'
+PHOTO_GALLERY_DIR_FILE = os.path.join(PHOTO_GALLERY_UPLOAD_FOLDER, 'directory.json')
+
+# Create Photo Gallery upload folder and directory file
+os.makedirs(PHOTO_GALLERY_UPLOAD_FOLDER, exist_ok=True)
+create_directory_file_if_not_exists(PHOTO_GALLERY_DIR_FILE, 'albums')
+
+@app.route("/upload_photo_album", methods=["POST"])
+def upload_photo_album():
+    try:
+        if not all(field in request.form for field in ['album_number', 'title']):
+            return jsonify({'error': 'Missing required fields'}), 400
+
+        is_edit = request.form.get('is_edit') == 'true'
+        album_number = request.form.get('album_number')
+        title = request.form.get('title')
+        album_date = request.form.get('album_date', '')
+        description = request.form.get('description', '')
+        
+        # Handle cover image
+        cover_image_path = None
+        if 'cover_image' in request.files and request.files['cover_image'].filename:
+            cover_image = request.files['cover_image']
+            if not allowed_file(cover_image.filename):
+                return jsonify({'error': 'Invalid file type'}), 400
+            
+            cover_filename = secure_filename(f"album_{album_number}_cover_{cover_image.filename}")
+            cover_path = os.path.join(PHOTO_GALLERY_UPLOAD_FOLDER, cover_filename)
+            cover_image.save(cover_path)
+            cover_image_path = f"/static/photo_gallery/{cover_filename}"
+        elif is_edit:
+            with open(PHOTO_GALLERY_DIR_FILE, 'r') as f:
+                directory = json.load(f)
+                for album in directory['albums']:
+                    if album['album_number'] == album_number:
+                        cover_image_path = album.get('cover_image')
+                        break
+
+        # Handle photos
+        photos = []
+        photo_index = 0
+        while f'photo_{photo_index}' in request.files:
+            photo = request.files[f'photo_{photo_index}']
+            if photo and photo.filename:
+                if allowed_file(photo.filename):
+                    photo_filename = secure_filename(f"album_{album_number}_photo_{photo_index}_{photo.filename}")
+                    photo_path = os.path.join(PHOTO_GALLERY_UPLOAD_FOLDER, photo_filename)
+                    photo.save(photo_path)
+                    photos.append(f"/static/photo_gallery/{photo_filename}")
+            photo_index += 1
+
+        # Handle existing photos in edit mode
+        if is_edit:
+            existing_photos = request.form.getlist('existing_photos[]')
+            photos.extend(existing_photos)
+
+        album_data = {
+            'album_number': album_number,
+            'title': title,
+            'album_date': album_date,
+            'description': description,
+            'upload_date': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            'cover_image': cover_image_path,
+            'photos': photos
+        }
+
+        update_directory(PHOTO_GALLERY_DIR_FILE, 'albums', album_data, 'album_number')
+        return jsonify({'success': True, 'message': 'Upload successful'}), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route("/get_photo_albums", methods=["GET"])
+def get_photo_albums():
+    try:
+        with open(PHOTO_GALLERY_DIR_FILE, 'r') as f:
+            directory = json.load(f)
+            
+        # Handle limit parameter
+        limit = request.args.get('limit', type=int)
+        if limit:
+            directory['albums'] = sorted(
+                directory['albums'], 
+                key=lambda x: int(x['album_number']), 
+                reverse=True
+            )[:limit]
+            
+        return jsonify(directory), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route("/delete_photo_album/<album_number>", methods=["DELETE"])
+def delete_photo_album(album_number):
+    try:
+        with open(PHOTO_GALLERY_DIR_FILE, 'r') as f:
+            directory = json.load(f)
+        
+        for i, album in enumerate(directory['albums']):
+            if album['album_number'] == album_number:
+                if album.get('cover_image'):
+                    cover_path = os.path.join(app.root_path, album['cover_image'].lstrip('/'))
+                    if os.path.exists(cover_path):
+                        os.remove(cover_path)
+                
+                for photo in album.get('photos', []):
+                    photo_path = os.path.join(app.root_path, photo.lstrip('/'))
+                    if os.path.exists(photo_path):
+                        os.remove(photo_path)
+                
+                directory['albums'].pop(i)
+                break
+        
+        with open(PHOTO_GALLERY_DIR_FILE, 'w') as f:
+            json.dump(directory, f, indent=2)
+        
+        return jsonify({'message': 'Album deleted successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
