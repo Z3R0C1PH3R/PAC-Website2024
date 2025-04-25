@@ -149,7 +149,7 @@ export function Teams() {
             </motion.div>
 
             <div className="space-y-16">
-              <TeamSection positions={['Faculty Incharge', 'Overall Coordinator']} title="" />
+              <TeamSection positions={['Faculty President', 'Overall Coordinator']} title="" />
               <TeamSection positions="Panel Member" title="Panel Members" />
               <TeamSection positions="CTM" title="CTMs" />
               <TeamSection positions="Coordinator" title="Coordinators" />
