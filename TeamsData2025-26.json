@@ -1,0 +1,47 @@
+[
+    {
+        "Name": "Suprit Singh",
+        "Entry Number": "",
+        "Email": "suprit@iitd.ac.in",
+        "Mobile Number": "",
+        "Hostel": "",
+        "Domain": "",
+        "Field": "",
+        "Position": "Faculty President",
+        "img": "/team-photos/Suprit_Sir.jpg"
+    },
+    {
+        "Name": "Aryan Choudhary",
+        "Entry Number": "2023ES10842",
+        "Email": "es1230842@iitd.ac.in",
+        "Mobile Number": "7371871087",
+        "Hostel": "Karakoram",
+        "Domain": "",
+        "Field": "",
+        "Position": "Overall Coordinator",
+        "img": "/team-photos/ARYAN_CHOUDHARY_COORDI.jpg"
+    },
+    {
+        "Name": "Pratibha Kashyap",
+        "Entry Number": "2023MS10360",
+        "Email": "ms1230360@iitd.ac.in",
+        "Mobile Number": "",
+        "Hostel": "",
+        "Domain": "Creative",
+        "Field": "Design",
+        "Position": "Coordinator",
+        "img": ""
+    },
+    {
+        "Name": "Aayush Garg",
+        "Entry Number": "2023ME10337",
+        "Email": "me1230337@iitd.ac.in",
+        "Mobile Number": "",
+        "Hostel": "",
+        "Domain": "Outreach",
+        "Field": "Events",
+        "Position": "Coordinator",
+        "img": ""
+    }
+
+]

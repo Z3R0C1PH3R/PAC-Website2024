@@ -1,6 +1,7 @@
-import teamdata from '../../TeamsData.json'
+import teamdata2425 from '../../TeamsData2024-25.json'
+import teamdata2526 from '../../TeamsData2025-26.json'
 import { motion, useInView } from 'framer-motion';
-import { Users, BookUser } from 'lucide-react';
+import { Users, BookUser, ChevronDown } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { TeamBackground } from '../components/TeamBackground'
 
@@ -28,7 +29,7 @@ function useCardsPerRow() {
   return { containerRef, cardsPerRow };
 }
 
-function TeamSection({ title, positions }: { title: string, positions: string|string[] }) {
+function TeamSection({ title, positions, teamData }: { title: string, positions: string|string[], teamData: any[] }) {
   const [visibleContacts, setVisibleContacts] = useState<number[]>([]);
   const { containerRef, cardsPerRow } = useCardsPerRow();
 
@@ -55,7 +56,7 @@ function TeamSection({ title, positions }: { title: string, positions: string|st
       )}
       <div className="flex justify-center">
         <div ref={containerRef} className="flex flex-wrap gap-8 justify-center">
-          {teamdata.filter((member) => 
+          {teamData.filter((member) => 
             typeof positions === 'string' 
               ? member.Position === positions
               : positions.includes(member.Position)
@@ -111,6 +112,16 @@ function TeamSection({ title, positions }: { title: string, positions: string|st
 }
 
 export function Teams() {
+  const [selectedYear, setSelectedYear] = useState('2025-26');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  
+  const yearOptions = [
+    { value: '2025-26', label: '2025-26', data: teamdata2526 },
+    { value: '2024-25', label: '2024-25', data: teamdata2425 }
+  ];
+  
+  const currentTeamData = yearOptions.find(option => option.value === selectedYear)?.data || teamdata2526;
+
   return (
     <div className="relative">
       <TeamBackground />
@@ -142,18 +153,53 @@ export function Teams() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
-                className="text-xl text-gray-400"
+                className="text-xl text-gray-400 mb-6"
               >
                 Meet the passionate individuals behind Physics and Astronomy Club
               </motion.p>
+              
+              {/* Year Selection Dropdown */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+                className="relative inline-block"
+              >
+                <button
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors"
+                >
+                  <span>Academic Year: {selectedYear}</span>
+                  <ChevronDown className={`w-4 h-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+                
+                {isDropdownOpen && (
+                  <div className="absolute top-full left-0 mt-2 bg-gray-800 border border-gray-700 rounded-lg shadow-lg z-20 min-w-full">
+                    {yearOptions.map((option) => (
+                      <button
+                        key={option.value}
+                        onClick={() => {
+                          setSelectedYear(option.value);
+                          setIsDropdownOpen(false);
+                        }}
+                        className={`w-full px-4 py-2 text-left hover:bg-gray-700 transition-colors first:rounded-t-lg last:rounded-b-lg ${
+                          selectedYear === option.value ? 'bg-purple-600' : ''
+                        }`}
+                      >
+                        {option.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </motion.div>
             </motion.div>
 
             <div className="space-y-16">
-              <TeamSection positions={['Faculty President', 'Overall Coordinator']} title="" />
-              <TeamSection positions="Panel Member" title="Panel Members" />
-              <TeamSection positions="CTM" title="CTMs" />
-              <TeamSection positions="Coordinator" title="Coordinators" />
-              <TeamSection positions="Executive" title="Executives" />
+              <TeamSection positions={['Faculty President', 'Overall Coordinator']} title="" teamData={currentTeamData} />
+              <TeamSection positions="Panel Member" title="Panel Members" teamData={currentTeamData} />
+              <TeamSection positions="CTM" title="CTMs" teamData={currentTeamData} />
+              <TeamSection positions="Coordinator" title="Coordinators" teamData={currentTeamData} />
+              <TeamSection positions="Executive" title="Executives" teamData={currentTeamData} />
             </div>
           </div>
         </div>
