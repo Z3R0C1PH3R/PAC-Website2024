@@ -212,13 +212,13 @@ export function Teams() {
 
             <div className="space-y-16">
               <TeamSection positions={['Faculty President', 'Overall Coordinator']} title="" teamData={currentTeamData} selectedYear={selectedYear} />
-              <TeamSection positions="Coordinator" title="Coordinators" teamData={currentTeamData} selectedYear={selectedYear} />
               {selectedYear === '2024-25' && (
                 <>
                   <TeamSection positions="Panel Member" title="Panel Members" teamData={currentTeamData} selectedYear={selectedYear} />
                   <TeamSection positions="CTM" title="CTMs" teamData={currentTeamData} selectedYear={selectedYear} />
                 </>
               )}
+              <TeamSection positions="Coordinator" title="Coordinators" teamData={currentTeamData} selectedYear={selectedYear} />
               <TeamSection positions="Executive" title="Executives" teamData={currentTeamData} selectedYear={selectedYear} />
             </div>
           </div>
