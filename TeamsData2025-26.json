@@ -103,7 +103,7 @@
     "Entry Number": "2023CE10903",
     "Email": "ce1230903@iitd.ac.in",
     "Mobile Number": 9871862781,
-    "Hostel": "",
+    "Hostel": "Aravali",
     "Domain": "Research",
     "Field": "Research",
     "Position": "Coordinator",
@@ -253,6 +253,17 @@
     "img": "/team-photos-2526/Jaiveer_Singh_Research.jpg"
   },
   {
+    "Name": "Arjav Jain",
+    "Entry Number": "2024CS10254",
+    "Email": "cs1240254@iitd.ac.in",
+    "Mobile Number": 9910922550,
+    "Hostel": "Shivalik",
+    "Domain": "Research",
+    "Field": "Research",
+    "Position": "Executive",
+    "img": "/team-photos-2526/ArjavJain_Research.jpg"
+  },
+  {
     "Name": "Shivkesh",
     "Entry Number": "2024EE10459",
     "Email": "ee1240459@iitd.ac.in",
@@ -352,6 +363,17 @@
     "img": "/team-photos-2526/Ankur_Events.jpg"
   },
   {
+    "Name": "Chavhan Shreya",
+    "Entry Number": "2024ES10817",
+    "Email": "es1240817@iitd.ac.in",
+    "Mobile Number": 8975023629,
+    "Hostel": "Himadri",
+    "Domain": "Outreach",
+    "Field": "Events",
+    "Position": "Executive",
+    "img": "/team-photos-2526/Shreya_Events.jpg"
+  },
+  {
     "Name": "Piyush Joshi",
     "Entry Number": "2024EE30373",
     "Email": "ee3240373@iitd.ac.in",
@@ -394,6 +416,17 @@
     "Field": "Marketing",
     "Position": "Executive",
     "img": "/team-photos-2526/Lakshya _marketing.jpg"
+  },
+  {
+    "Name": "Manas Kumar Gautam",
+    "Entry Number": "2024CE11152",
+    "Email": "ce1241152@iitd.ac.in",
+    "Mobile Number": 7999692897,
+    "Hostel": "Shivalik",
+    "Domain": "Creative",
+    "Field": "Journalism",
+    "Position": "Executive",
+    "img": "/team-photos-2526/Manas_Kumar_Gautam_Journalism.jpg"
   },
   {
     "Name": "Siddhant Agrawal",
