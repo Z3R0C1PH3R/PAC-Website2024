@@ -108,7 +108,7 @@ export function PACEventsPage() {
             {/* Handle legacy events that don't have sections */}
             {event.sections ? (
               // Sections exist, render them
-              event.sections.map((section, index) => (
+              [...event.sections].reverse().map((section, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
@@ -157,8 +157,8 @@ export function PACEventsPage() {
             {/* Image Gallery Link (if album ID exists) */}
             {event.image_gallery_album_id && (
               <div className="mt-8">
-                <a 
-                  href={`/gallery/${event.image_gallery_album_id}`} 
+                <a
+                  href={`/gallery/${event.image_gallery_album_id}`}
                   className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg inline-block"
                 >
                   View Event Gallery
