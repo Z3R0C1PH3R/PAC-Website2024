@@ -102,7 +102,7 @@ export function PACReadingCirclePage() {
               Reading Circle #{event.event_number} - {event.event_date}
             </p>
 
-            {event.sections.map((section, index) => (
+            {[...event.sections].reverse().map((section, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
